@@ -70,6 +70,16 @@ nav .nav-links{ display:flex; gap:24px; }
   .main-hero p{ font-size:17px; }
 }
 
+.steps-alb{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:10px; }
+@media(max-width:768px){ .steps-alb{ grid-template-columns:1fr; } }
+.step-alb-card{ background:var(--cream); border-radius:18px; overflow:hidden; box-shadow:0 8px 20px rgba(0,0,0,.08); }
+.step-alb-photo{ width:100%; aspect-ratio:4/3; background:#e2ddd3; display:flex; align-items:center; justify-content:center; }
+.step-alb-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+.step-alb-num{ display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:var(--accent-alb); color:var(--cream); font-weight:700; font-family:"Playfair Display",serif; margin-bottom:10px; }
+.step-alb-body{ padding:20px 22px 26px; }
+.step-alb-body h3{ font-family:"Playfair Display",serif; font-size:19px; margin:0 0 8px; color:var(--dark); }
+.step-alb-body p{ font-size:14px; line-height:1.7; color:var(--dark); opacity:.85; margin:0; }
+
 .workshop-divider{ text-align:center; padding:50px 25px 20px; border-top:3px solid; }
 .workshop-divider.jes{ border-color:var(--accent-jes); }
 .workshop-divider.can{ border-color:var(--accent-can); }
@@ -167,8 +177,9 @@ li{ margin:14px 0; font-size:17px; text-align:left; }
 .cta-solid-alb{ display:inline-block; background:var(--cream); color:var(--accent-alb); font-weight:700; padding:13px 28px; border-radius:40px; text-decoration:none; font-size:14px; }
 .cta-outline{ display:inline-block; background:transparent; color:var(--cream); font-weight:700; padding:13px 28px; border-radius:40px; text-decoration:none; font-size:14px; border:2px solid var(--cream); }
 
-.section-bg-jes{ background:#eeeae6; }
-.section-bg-can{ background:#f5efe8; }
+.section-bg-jes{ background:#f0ece5; }
+.section-bg-can{ background:#f0ece5; }
+.section-bg-alb{ background:#f0ece5; }
 
 footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center; font-size:14px; }
 
@@ -640,7 +651,7 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
 </div>
 
 <!-- КАКВО ГОВОРЯТ РЪЦЕТЕ ТИ -->
-<div id="albums" style="background:#efecf2;">
+<div id="albums" class="section-bg-alb">
   <div class="workshop-divider alb">
     <h2>Какво говорят ръцете ти?</h2>
     <p>Творчество, интуиция и малко психология</p>
@@ -657,6 +668,36 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
       </div>
     </div>
   </section>
+  <section class="container" style="text-align:left;">
+    <h2 style="text-align:center;">КАК ПРОТИЧА РАБОТИЛНИЦАТА</h2>
+    <div class="steps-alb">
+      <div class="step-alb-card">
+        <div class="step-alb-photo"><img src="images/album-step1.jpg" alt="Добре дошли"></div>
+        <div class="step-alb-body">
+          <span class="step-alb-num">1</span>
+          <h3>Добре дошли</h3>
+          <p>Кафе, напитка и въвеждащ въпрос от психолога. В топла и приятелска атмосфера всеки ще се представи с няколко думи.</p>
+        </div>
+      </div>
+      <div class="step-alb-card">
+        <div class="step-alb-photo"><img src="images/album-step2.jpg" alt="Свободна изработка"></div>
+        <div class="step-alb-body">
+          <span class="step-alb-num">2</span>
+          <h3>Свободна изработка</h3>
+          <p>Музика, разговор, творчество. Всеки ще подбере материалите, с които желае да работи.</p>
+        </div>
+      </div>
+      <div class="step-alb-card">
+        <div class="step-alb-photo"><img src="images/album-step3.jpg" alt="Психологът споделя наблюденията си"></div>
+        <div class="step-alb-body">
+          <span class="step-alb-num">3</span>
+          <h3>Психологът споделя наблюденията си</h3>
+          <p>След като всеки е приключил с декорацията, психологът споделя своите наблюдения - групово или индивидуално. А ти си тръгваш с нещо, което твоите ръце са разказали.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="container" id="schedule-alb">
     <h2>ГРАФИК И ЗАПИСВАНЕ</h2>
     <div class="grid">
@@ -776,4 +817,3 @@ function trackCheckout(name, date, value) {
 
 </body>
 </html>
-
