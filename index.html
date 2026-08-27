@@ -295,6 +295,50 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
   font-family:"Playfair Display",serif; font-size:28px; color:var(--gold); margin:14px 0;
 }
 
+/* ── Mini Workshops Section ── */
+.mini-section{
+  background:#eeeae6;
+  padding:60px 25px;
+}
+.mini-inner{ max-width:900px; margin:auto; text-align:center; }
+.mini-badge{
+  display:inline-block; background:#7a8c6e; color:#fff; font-weight:700;
+  font-size:12px; letter-spacing:2px; padding:7px 18px; border-radius:20px; margin-bottom:16px;
+}
+.mini-section h2{
+  font-family:"Playfair Display",serif;
+  font-size:34px; color:#2c3e50; margin-bottom:14px;
+}
+.mini-section p.lead{
+  font-size:16px; color:#4a5568; line-height:1.7; margin-bottom:30px; max-width:640px; margin-left:auto; margin-right:auto;
+}
+.mini-options{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+  margin-bottom:32px;
+}
+@media(max-width:700px){ .mini-options{ grid-template-columns:1fr; } }
+.mini-option-card{
+  background:#fff; border:1px solid #e8e0d8; border-radius:16px;
+  padding:24px 20px;
+}
+.mini-option-card h3{
+  font-family:"Playfair Display",serif; font-size:18px; color:#2c3e50; margin-bottom:8px;
+}
+.mini-option-card .mini-price{
+  font-family:"Playfair Display",serif; font-size:22px; color:#7a8c6e; margin-bottom:8px;
+}
+.mini-option-card p{ font-size:13px; color:#6a7a8a; line-height:1.6; }
+.mini-schedule-note{
+  background:#fff; border-radius:14px; padding:20px 24px;
+  font-size:14px; color:#4a5568; line-height:1.8; margin-bottom:28px;
+  display:inline-block; text-align:left; border-left:3px solid #7a8c6e;
+}
+.mini-btn{
+  display:inline-block; background:#7a8c6e; color:#fff;
+  font-weight:700; font-size:15px; padding:15px 36px; border-radius:40px;
+  text-decoration:none;
+}
+
 </style>
 </head>
 <body>
@@ -308,6 +352,7 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
     <a href="#schedule-jes">Записване Jesmonite</a>
     <a href="#schedule-can">Записване Свещ</a>
     <a href="#schedule-alb">Записване Албум</a>
+    <a href="mini-workshop.html" style="color:var(--gold);">Мини сесия</a>
     <a href="voucher.html" style="color:var(--gold);">Ваучер</a>
     <a href="about.html" style="color:var(--gold);">За нас</a>
     <a href="contact.html" style="color:var(--gold);">Контакти</a>
@@ -326,6 +371,7 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
   <a href="#schedule-jes" onclick="document.getElementById('mobileOverlay').style.display='none'">Записване Jesmonite</a>
   <a href="#schedule-can" onclick="document.getElementById('mobileOverlay').style.display='none'">Записване Свещ</a>
   <a href="#schedule-alb" onclick="document.getElementById('mobileOverlay').style.display='none'">Записване Албум</a>
+  <a href="mini-workshop.html" onclick="document.getElementById('mobileOverlay').style.display='none'">Мини сесия</a>
   <a href="voucher.html" onclick="document.getElementById('mobileOverlay').style.display='none'">Ваучер</a>
   <a href="about.html" onclick="document.getElementById('mobileOverlay').style.display='none'">За нас</a>
   <a href="contact.html" onclick="document.getElementById('mobileOverlay').style.display='none'">Контакти</a>
@@ -379,65 +425,35 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
         <div class="intro-icon-item"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg><span>Кафе<br>+ закуска</span></div>
       </div>
     </div>
-       <section class="container" id="schedule-jes">
+         <section class="container" id="schedule-jes">
     <h2>ГРАФИК И ЗАПИСВАНЕ</h2>
     <div class="grid">
       <div class="schedule-card-jes">
-        <h3>26 юли | 17:00</h3>
+        <h3>05 септември | 11:00</h3>
         <p>Варна, ул. Бреза 2</p>
         <p>Продължителност: ~2 часа</p>
         <p class="spots">Максимум 6 участника</p>
-        <a class="btn-jes" href="zapis.html?workshop=jesmonite-26juli">
+        <a class="btn-jes" href="zapis.html?workshop=jesmonite-05sept">
           Запази място — капаро 20 €
         </a>
         <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
       </div>
       <div class="schedule-card-jes">
-        <h3>02 август | 17:00</h3>
+        <h3>12 септември | 15:00</h3>
         <p>Варна, ул. Бреза 2</p>
         <p>Продължителност: ~2 часа</p>
         <p class="spots">Максимум 6 участника</p>
-        <a class="btn-jes" href="zapis.html?workshop=jesmonite-02avgust">
+        <a class="btn-jes" href="zapis.html?workshop=jesmonite-12sept">
           Запази място — капаро 20 €
         </a>
         <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
       </div>
       <div class="schedule-card-jes">
-        <h3>08 август | 17:00</h3>
+        <h3>19 септември | 11:00</h3>
         <p>Варна, ул. Бреза 2</p>
         <p>Продължителност: ~2 часа</p>
         <p class="spots">Максимум 6 участника</p>
-        <a class="btn-jes" href="zapis.html?workshop=jesmonite-08avgust">
-          Запази място — капаро 20 €
-        </a>
-        <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
-      </div>
-      <div class="schedule-card-jes">
-        <h3>16 август | 17:00</h3>
-        <p>Варна, ул. Бреза 2</p>
-        <p>Продължителност: ~2 часа</p>
-        <p class="spots">Максимум 6 участника</p>
-        <a class="btn-jes" href="zapis.html?workshop=jesmonite-16avgust">
-          Запази място — капаро 20 €
-        </a>
-        <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
-      </div>
-      <div class="schedule-card-jes">
-        <h3>22 август | 17:00</h3>
-        <p>Варна, ул. Бреза 2</p>
-        <p>Продължителност: ~2 часа</p>
-        <p class="spots">Максимум 6 участника</p>
-        <a class="btn-jes" href="zapis.html?workshop=jesmonite-22avgust">
-          Запази място — капаро 20 €
-        </a>
-        <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
-      </div>
-      <div class="schedule-card-jes">
-        <h3>30 август | 17:00</h3>
-        <p>Варна, ул. Бреза 2</p>
-        <p>Продължителност: ~2 часа</p>
-        <p class="spots">Максимум 6 участника</p>
-        <a class="btn-jes" href="zapis.html?workshop=jesmonite-30avgust">
+        <a class="btn-jes" href="zapis.html?workshop=jesmonite-19sept">
           Запази място — капаро 20 €
         </a>
         <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
@@ -505,12 +521,9 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
       <p>Избери дата и запази място — групите са малки и се запълват бързо.</p>
       <p style="font-size:14px;opacity:.8;margin-bottom:4px;">Капаро 20 € сега + 19 € на място при работилницата.</p>
       <div class="cta-btns">
-        <a class="cta-solid-jes" href="zapis.html?workshop=jesmonite-26juli">26 юли | 17:00 — 20 €</a>
-        <a class="cta-outline" href="zapis.html?workshop=jesmonite-02avgust">02 август | 17:00 — 20 €</a>
-        <a class="cta-outline" href="zapis.html?workshop=jesmonite-08avgust">08 август | 17:00 — 20 €</a>
-        <a class="cta-outline" href="zapis.html?workshop=jesmonite-16avgust">16 август | 17:00 — 20 €</a>
-        <a class="cta-outline" href="zapis.html?workshop=jesmonite-22avgust">22 август | 17:00 — 20 €</a>
-        <a class="cta-outline" href="zapis.html?workshop=jesmonite-30avgust">30 август | 17:00 — 20 €</a>
+        <a class="cta-solid-jes" href="zapis.html?workshop=jesmonite-05sept">05 септември | 11:00 — 20 €</a>
+        <a class="cta-outline" href="zapis.html?workshop=jesmonite-12sept">12 септември | 15:00 — 20 €</a>
+        <a class="cta-outline" href="zapis.html?workshop=jesmonite-19sept">19 септември | 11:00 — 20 €</a>
       </div>
       <p style="margin-top:18px;font-size:13px;opacity:.8;">Варна, ул. Бреза 2 | 0885 442 821 | eleganssastudio@gmail.com</p>
     </div>
@@ -537,65 +550,35 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
     </div>
   </section>
   <section class="container">
-            <section class="container" id="schedule-can">
+              <section class="container" id="schedule-can">
     <h2>ГРАФИК И ЗАПИСВАНЕ</h2>
     <div class="grid">
       <div class="schedule-card-can">
-        <h3>25 юли | 17:00</h3>
+        <h3>05 септември | 15:00</h3>
         <p>Варна, ул. Бреза 2</p>
         <p>Продължителност: ~2 часа</p>
         <p class="spots">Максимум 6 участника</p>
-        <a class="btn-can" href="zapis.html?workshop=svesht-25juli">
+        <a class="btn-can" href="zapis.html?workshop=svesht-05sept">
           Запази място — капаро 20 €
         </a>
         <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
       </div>
       <div class="schedule-card-can">
-        <h3>01 август | 17:00</h3>
+        <h3>12 септември | 11:00</h3>
         <p>Варна, ул. Бреза 2</p>
         <p>Продължителност: ~2 часа</p>
         <p class="spots">Максимум 6 участника</p>
-        <a class="btn-can" href="zapis.html?workshop=svesht-01avgust">
+        <a class="btn-can" href="zapis.html?workshop=svesht-12sept">
           Запази място — капаро 20 €
         </a>
         <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
       </div>
       <div class="schedule-card-can">
-        <h3>09 август | 17:00</h3>
+        <h3>19 септември | 15:00</h3>
         <p>Варна, ул. Бреза 2</p>
         <p>Продължителност: ~2 часа</p>
         <p class="spots">Максимум 6 участника</p>
-        <a class="btn-can" href="zapis.html?workshop=svesht-09avgust">
-          Запази място — капаро 20 €
-        </a>
-        <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
-      </div>
-      <div class="schedule-card-can">
-        <h3>15 август | 11:00</h3>
-        <p>Варна, ул. Бреза 2</p>
-        <p>Продължителност: ~2 часа</p>
-        <p class="spots">Максимум 6 участника</p>
-        <a class="btn-can" href="zapis.html?workshop=svesht-15avgust">
-          Запази място — капаро 20 €
-        </a>
-        <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
-      </div>
-      <div class="schedule-card-can">
-        <h3>23 август | 17:00</h3>
-        <p>Варна, ул. Бреза 2</p>
-        <p>Продължителност: ~2 часа</p>
-        <p class="spots">Максимум 6 участника</p>
-        <a class="btn-can" href="zapis.html?workshop=svesht-23avgust">
-          Запази място — капаро 20 €
-        </a>
-        <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
-      </div>
-      <div class="schedule-card-can">
-        <h3>29 август | 17:00</h3>
-        <p>Варна, ул. Бреза 2</p>
-        <p>Продължителност: ~2 часа</p>
-        <p class="spots">Максимум 6 участника</p>
-        <a class="btn-can" href="zapis.html?workshop=svesht-29avgust">
+        <a class="btn-can" href="zapis.html?workshop=svesht-19sept">
           Запази място — капаро 20 €
         </a>
         <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
@@ -639,12 +622,9 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
       <p>Избери дата и запази място — групите са малки и се запълват бързо.</p>
       <p style="font-size:14px;opacity:.8;margin-bottom:4px;">Капаро 20 € сега + 19 € на място при работилницата.</p>
       <div class="cta-btns">
-        <a class="cta-solid-can" href="zapis.html?workshop=svesht-25juli">25 юли | 17:00 — 20 €</a>
-        <a class="cta-outline" href="zapis.html?workshop=svesht-01avgust">01 август | 17:00 — 20 €</a>
-        <a class="cta-outline" href="zapis.html?workshop=svesht-09avgust">09 август | 17:00 — 20 €</a>
-        <a class="cta-outline" href="zapis.html?workshop=svesht-15avgust">15 август | 11:00 — 20 €</a>
-        <a class="cta-outline" href="zapis.html?workshop=svesht-23avgust">23 август | 17:00 — 20 €</a>
-        <a class="cta-outline" href="zapis.html?workshop=svesht-29avgust">29 август | 17:00 — 20 €</a>
+        <a class="cta-solid-can" href="zapis.html?workshop=svesht-05sept">05 септември | 15:00 — 20 €</a>
+        <a class="cta-outline" href="zapis.html?workshop=svesht-12sept">12 септември | 11:00 — 20 €</a>
+        <a class="cta-outline" href="zapis.html?workshop=svesht-19sept">19 септември | 15:00 — 20 €</a>
       </div>
       <p style="margin-top:18px;font-size:13px;opacity:.8;">Варна, ул. Бреза 2 | 0885 442 821 | eleganssastudio@gmail.com</p>
     </div>
@@ -699,15 +679,35 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
     </div>
   </section>
 
-  <section class="container" id="schedule-alb">
+    <section class="container" id="schedule-alb">
     <h2>ГРАФИК И ЗАПИСВАНЕ</h2>
     <div class="grid">
       <div class="schedule-card-alb">
-        <h3>10 август | 18:00</h3>
+        <h3>03 септември | 18:00</h3>
         <p>Варна, ул. Бреза 2</p>
         <p>Продължителност: ~2 часа</p>
         <p class="spots">Максимум 6 участника</p>
-        <a class="btn-alb" href="zapis.html?workshop=albums-10avgust">
+        <a class="btn-alb" href="zapis.html?workshop=albums-03sept">
+          Запази място — капаро 20 €
+        </a>
+        <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
+      </div>
+      <div class="schedule-card-alb">
+        <h3>10 септември | 18:00</h3>
+        <p>Варна, ул. Бреза 2</p>
+        <p>Продължителност: ~2 часа</p>
+        <p class="spots">Максимум 6 участника</p>
+        <a class="btn-alb" href="zapis.html?workshop=albums-10sept">
+          Запази място — капаро 20 €
+        </a>
+        <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
+      </div>
+      <div class="schedule-card-alb">
+        <h3>17 септември | 18:00</h3>
+        <p>Варна, ул. Бреза 2</p>
+        <p>Продължителност: ~2 часа</p>
+        <p class="spots">Максимум 6 участника</p>
+        <a class="btn-alb" href="zapis.html?workshop=albums-17sept">
           Запази място — капаро 20 €
         </a>
         <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
@@ -744,11 +744,34 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
       <p>Групата е малка и местата се запълват бързо.</p>
       <p style="font-size:14px;opacity:.8;margin-bottom:4px;">Капаро 20 € сега + 19 € на място при работилницата.</p>
       <div class="cta-btns">
-        <a class="cta-solid-alb" href="zapis.html?workshop=albums-10avgust">10 август | 18:00 — 20 €</a>
+        <a class="cta-solid-alb" href="zapis.html?workshop=albums-03sept">03 септември | 18:00 — 20 €</a>
+        <a class="cta-outline" href="zapis.html?workshop=albums-10sept">10 септември | 18:00 — 20 €</a>
+        <a class="cta-outline" href="zapis.html?workshop=albums-17sept">17 септември | 18:00 — 20 €</a>
       </div>
       <p style="margin-top:18px;font-size:13px;opacity:.8;">Варна, ул. Бреза 2 | 0885 442 821 | eleganssastudio@gmail.com</p>
     </div>
   </section>
+</div>
+
+<!-- МИНИ РАБОТИЛНИЦИ -->
+<div class="mini-section">
+  <div class="mini-inner">
+    <span class="mini-badge">БЕЗ ЗАПИСВАНЕ ПРЕДВАРИТЕЛНО</span>
+    <h2>Направи си нещо малко</h2>
+    <p class="lead">Нямаш време за цяла работилница, но искаш да пипнеш материалите? Заповядай за кратка мини сесия — сам избираш какво да направиш на място, а цената варира от 18 до 25 € според избора.</p>
+
+    <div class="mini-schedule-note" style="display:block; max-width:520px; margin:0 auto 28px;">
+      <b>Кога:</b> вторник – петък, 11:00 – 18:00 (на всеки кръгъл час)<br>
+      <b>Продължителност:</b> около 55–60 минути<br>
+      <b>Участници:</b> максимум 4 човека на слот<br>
+      <b>Как:</b> изпращаш заявка за предпочитан ден и час — потвърждаваме бързо<br>
+      <b>Плащане:</b> на място, според избрания продукт
+    </div>
+
+    <div>
+      <a class="mini-btn" href="mini-workshop.html">Заяви час →</a>
+    </div>
+  </div>
 </div>
 
 <!-- ПОДАРЪЧЕН ВАУЧЕР -->
