@@ -182,12 +182,16 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
         <textarea name="message" placeholder="Кратко послание, което да добавим към ваучера"></textarea>
       </div>
       <input type="hidden" name="order_type" value="Подаръчен ваучер — 39 €">
+      <input type="hidden" name="voucher_code" id="voucherCodeHidden" value="">
       <div class="consent-row">
         <input type="checkbox" required id="gdprCheck">
         <span>Съгласен/на съм личните ми данни да бъдат обработени, съгласно <a href="privacy.html" target="_blank">Политиката за поверителност</a>.</span>
       </div>
       <button type="submit" class="submit-btn">Изпрати данните</button>
-      <div class="form-success" id="formSuccess">✓ Данните са изпратени! Продължи с плащането по-долу.</div>
+      <div class="form-success" id="formSuccess">
+        ✓ Данните са изпратени! Твоят код на ваучера е <b id="generatedCodeDisplay" style="font-size:16px;letter-spacing:1px;"></b><br>
+        Запази този код — вписва се при записване за работилница вместо капаро. Ще получиш и PDF версия на посочения имейл до 24 часа.
+      </div>
     </form>
   </div>
 
@@ -235,9 +239,27 @@ function trackVoucherPay(){
   });
 }
 
+// ── Генериране на код на ваучера ──
+// Формат: ELEG-XXXXX (5 знака). Изключени са лесно бъркащи се символи
+// (0, O, 1, I, L), за да няма грешки при преписване на ръка.
+function generateVoucherCode(){
+  var chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  var code = '';
+  for (var i = 0; i < 5; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return 'ELEG-' + code;
+}
+
 document.getElementById('voucherForm').addEventListener('submit', function(e){
   e.preventDefault();
   var form = e.target;
+
+  // Кодът се генерира тук, преди да построим FormData, за да замине
+  // със заявката към Formspree.
+  var code = generateVoucherCode();
+  document.getElementById('voucherCodeHidden').value = code;
+
   var btn = form.querySelector('.submit-btn');
   btn.disabled = true;
   btn.textContent = 'Изпращане...';
@@ -248,6 +270,7 @@ document.getElementById('voucherForm').addEventListener('submit', function(e){
     headers: { 'Accept': 'application/json' }
   }).then(function(response){
     if (response.ok) {
+      document.getElementById('generatedCodeDisplay').textContent = code;
       document.getElementById('formSuccess').style.display = 'block';
       btn.textContent = '✓ Изпратено';
 
