@@ -117,6 +117,38 @@ nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(253,24
   font-size:14px; margin-top:14px; text-align:center;
 }
 
+.calendar-widget{
+  background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:16px;
+}
+.calendar-header{
+  text-align:center; font-family:"Playfair Display",serif; font-size:16px;
+  color:var(--dark); font-weight:700; margin-bottom:12px;
+}
+.calendar-weekdays{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:6px; }
+.calendar-weekdays span{
+  text-align:center; font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase;
+}
+.calendar-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+.cal-day{
+  aspect-ratio:1/1; display:flex; align-items:center; justify-content:center;
+  border-radius:8px; font-size:13px; font-weight:700; cursor:pointer;
+  background:var(--card); border:1px solid var(--border); color:var(--dark);
+  transition:.15s ease;
+}
+.cal-day:hover{ border-color:var(--accent); }
+.cal-day.disabled{
+  background:transparent; border-color:transparent; color:#c9c2b8;
+  cursor:not-allowed; font-weight:400;
+}
+.cal-day.empty{ visibility:hidden; cursor:default; }
+.cal-day.selected{ background:var(--accent); border-color:var(--accent); color:#fff; }
+.calendar-selected-info{
+  margin-top:12px; font-size:13px; color:var(--dark); text-align:center; min-height:18px;
+}
+.calendar-error{
+  display:none; color:#c0392b; font-size:12px; text-align:center; margin-top:6px; font-weight:700;
+}
+
 .help-box{ text-align:center; font-size:14px; color:var(--muted); margin-top:8px; line-height:1.7; }
 .help-box a{ color:var(--dark); font-weight:700; text-decoration:none; }
 
@@ -145,7 +177,7 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
       Сам избираш какво искаш да направиш на място — свещ, ароматен спрей или малък декор — а ние ти помагаме с материалите и техниката. Цената варира от <b>18 до 25 €</b>, според избора, който направиш в момента.
     </p>
     <div class="schedule-info">
-      <b>Кога:</b> вторник – петък, 11:00 – 18:00 (на всеки кръгъл час)<br>
+      <b>Кога:</b> вторник – петък, 11:00 – 18:00 (на всеки кръгъл час) — свободни дати през септември 2026<br>
       <b>Продължителност:</b> около 55–60 минути<br>
       <b>Участници:</b> максимум 4 човека на слот<br>
       <b>Плащане:</b> на място, в брой или с карта, според избрания продукт
@@ -170,31 +202,32 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
         <label>Имейл *</label>
         <input type="email" name="email" required placeholder="ivan@example.com">
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Предпочитан ден *</label>
-          <select name="preferred_day" required>
-            <option value="">Избери ден</option>
-            <option value="Вторник">Вторник</option>
-            <option value="Сряда">Сряда</option>
-            <option value="Четвъртък">Четвъртък</option>
-            <option value="Петък">Петък</option>
-          </select>
+      <div class="form-group">
+        <label>Предпочитана дата *</label>
+        <div class="calendar-widget" id="dayCalendar">
+          <div class="calendar-header">Септември 2026</div>
+          <div class="calendar-weekdays">
+            <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+          <div class="calendar-selected-info" id="calendarSelectedInfo">Избери дата от календара по-горе</div>
+          <div class="calendar-error" id="calendarError">Моля, избери дата, преди да изпратиш заявката.</div>
         </div>
-        <div class="form-group">
-          <label>Предпочитан час *</label>
-          <select name="preferred_hour" required>
-            <option value="">Избери час</option>
-            <option value="11:00">11:00</option>
-            <option value="12:00">12:00</option>
-            <option value="13:00">13:00</option>
-            <option value="14:00">14:00</option>
-            <option value="15:00">15:00</option>
-            <option value="16:00">16:00</option>
-            <option value="17:00">17:00</option>
-            <option value="18:00">18:00</option>
-          </select>
-        </div>
+        <input type="hidden" name="preferred_day" id="preferredDayInput">
+      </div>
+      <div class="form-group">
+        <label>Предпочитан час *</label>
+        <select name="preferred_hour" required>
+          <option value="">Избери час</option>
+          <option value="11:00">11:00</option>
+          <option value="12:00">12:00</option>
+          <option value="13:00">13:00</option>
+          <option value="14:00">14:00</option>
+          <option value="15:00">15:00</option>
+          <option value="16:00">16:00</option>
+          <option value="17:00">17:00</option>
+          <option value="18:00">18:00</option>
+        </select>
       </div>
       <div class="form-group">
         <label>Имаш ли предпочитание какво да направиш? <span style="color:var(--muted);font-weight:400;">(по избор)</span></label>
@@ -228,9 +261,80 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
 </footer>
 
 <script>
+// --- Календар: септември 2026, само работните дни от списъка са активни ---
+var dayLabels = {
+  1: "Вторник, 1 септември 2026",
+  2: "Сряда, 2 септември 2026",
+  3: "Четвъртък, 3 септември 2026",
+  4: "Петък, 4 септември 2026",
+  8: "Вторник, 8 септември 2026",
+  9: "Сряда, 9 септември 2026",
+  10: "Четвъртък, 10 септември 2026",
+  11: "Петък, 11 септември 2026",
+  15: "Вторник, 15 септември 2026",
+  16: "Сряда, 16 септември 2026",
+  17: "Четвъртък, 17 септември 2026",
+  22: "Вторник, 22 септември 2026",
+  23: "Сряда, 23 септември 2026",
+  24: "Четвъртък, 24 септември 2026",
+  25: "Петък, 25 септември 2026",
+  29: "Вторник, 29 септември 2026",
+  30: "Сряда, 30 септември 2026"
+};
+
+(function renderCalendar(){
+  var year = 2026, month = 8; // септември (0-indexed)
+  var firstWeekday = new Date(year, month, 1).getDay(); // 0=Нд,1=Пн,...6=Сб
+  var mondayFirstIndex = (firstWeekday + 6) % 7; // 0=Пн ... 6=Нд
+  var daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  var grid = document.getElementById('calendarGrid');
+  var hiddenInput = document.getElementById('preferredDayInput');
+  var infoBox = document.getElementById('calendarSelectedInfo');
+  var errorBox = document.getElementById('calendarError');
+
+  var cellsHtml = '';
+  for (var i = 0; i < mondayFirstIndex; i++) {
+    cellsHtml += '<div class="cal-day empty"></div>';
+  }
+  for (var d = 1; d <= daysInMonth; d++) {
+    if (dayLabels[d]) {
+      cellsHtml += '<div class="cal-day" data-day="' + d + '">' + d + '</div>';
+    } else {
+      cellsHtml += '<div class="cal-day disabled">' + d + '</div>';
+    }
+  }
+  var totalCells = mondayFirstIndex + daysInMonth;
+  var trailing = (7 - (totalCells % 7)) % 7;
+  for (var t = 0; t < trailing; t++) {
+    cellsHtml += '<div class="cal-day empty"></div>';
+  }
+  grid.innerHTML = cellsHtml;
+
+  grid.querySelectorAll('.cal-day[data-day]').forEach(function(cell){
+    cell.addEventListener('click', function(){
+      grid.querySelectorAll('.cal-day.selected').forEach(function(c){ c.classList.remove('selected'); });
+      cell.classList.add('selected');
+      var day = cell.getAttribute('data-day');
+      hiddenInput.value = dayLabels[day];
+      infoBox.textContent = 'Избрана дата: ' + dayLabels[day];
+      errorBox.style.display = 'none';
+    });
+  });
+})();
+
 document.getElementById('miniForm').addEventListener('submit', function(e){
   e.preventDefault();
   var form = e.target;
+
+  // Валидация на избора от календара (hidden input не се проверява от браузъра)
+  var preferredDay = document.getElementById('preferredDayInput');
+  if (!preferredDay.value) {
+    document.getElementById('calendarError').style.display = 'block';
+    document.getElementById('dayCalendar').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
   var btn = form.querySelector('.submit-btn');
   btn.disabled = true;
   btn.textContent = 'Изпращане...';
