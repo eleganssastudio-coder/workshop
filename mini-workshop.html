@@ -217,16 +217,8 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
       </div>
       <div class="form-group">
         <label>Предпочитан час *</label>
-        <select name="preferred_hour" required>
-          <option value="">Избери час</option>
-          <option value="11:00">11:00</option>
-          <option value="12:00">12:00</option>
-          <option value="13:00">13:00</option>
-          <option value="14:00">14:00</option>
-          <option value="15:00">15:00</option>
-          <option value="16:00">16:00</option>
-          <option value="17:00">17:00</option>
-          <option value="18:00">18:00</option>
+        <select name="preferred_hour" id="preferredHourSelect" required disabled>
+          <option value="">Първо избери дата</option>
         </select>
       </div>
       <div class="form-group">
@@ -282,6 +274,79 @@ var dayLabels = {
   30: "Сряда, 30 септември 2026"
 };
 
+// ── РЪЧНА КОНФИГУРАЦИЯ НА НАЛИЧНОСТТА ──────────────────────────────
+// Редактирай тези два обекта, за да управляваш наличността на часовете.
+// Ключът е денят от месеца (число), стойността е списък от часове ("HH:MM").
+//
+// 1) RESTRICTED_HOURS_BY_DATE — часове, които изобщо НЕ се предлагат
+//    за дадена дата (напр. работилницата почива по-рано онзи ден).
+//    Тези часове напълно изчезват от менюто.
+//
+//    Пример: на 3 септември няма 17:00 и 18:00 слот:
+//    3: ["17:00", "18:00"]
+//
+// 2) BOOKED_SLOTS_BY_DATE — часове, които вече са напълно запълнени
+//    (4-те места за слота са заети). Тези часове остават видими в
+//    менюто, но са disabled и маркирани "Запълнено", за да е ясно
+//    на клиента, че е било налично, но вече не е.
+//
+//    Пример: на 3 септември 14:00 вече е запълнен:
+//    3: ["14:00"]
+//
+// Ако дадена дата няма запис тук, приема се, че всичките 8 часа
+// (11:00–18:00) са напълно свободни.
+var RESTRICTED_HOURS_BY_DATE = {
+  // 1: ["17:00", "18:00"],
+};
+var BOOKED_SLOTS_BY_DATE = {
+  // 1: ["14:00"],
+};
+var ALL_HOURS = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];
+
+// Ако за дадена дата всичките 8 часа са в RESTRICTED_HOURS_BY_DATE,
+// датата се показва като напълно затворена в самия календар.
+function isDateFullyRestricted(day){
+  var restricted = RESTRICTED_HOURS_BY_DATE[day] || [];
+  return ALL_HOURS.every(function(h){ return restricted.indexOf(h) !== -1; });
+}
+
+// Работилницата приключва в 18:00 — след този час датата вече е
+// "отминала" и се заключва автоматично, без да се редактира нищо ръчно.
+function isPastCutoff(day){
+  var cutoff = new Date(2026, 8, day, 18, 0, 0); // месец 8 = септември (0-индексирано)
+  return new Date() > cutoff;
+}
+
+function isDaySelectable(day){
+  return !!dayLabels[day] && !isPastCutoff(day) && !isDateFullyRestricted(day);
+}
+
+// Построява менюто за час спрямо избрания ден: маха напълно
+// ограничените часове и деактивира вече запълнените.
+function updateHourOptions(day){
+  var hourSelect = document.getElementById('preferredHourSelect');
+  var restricted = RESTRICTED_HOURS_BY_DATE[day] || [];
+  var booked = BOOKED_SLOTS_BY_DATE[day] || [];
+  var html = '<option value="">Избери час</option>';
+  var anyAvailable = false;
+
+  ALL_HOURS.forEach(function(h){
+    if (restricted.indexOf(h) !== -1) return;
+    if (booked.indexOf(h) !== -1) {
+      html += '<option value="' + h + '" disabled>' + h + ' — Запълнено</option>';
+    } else {
+      html += '<option value="' + h + '">' + h + '</option>';
+      anyAvailable = true;
+    }
+  });
+
+  hourSelect.innerHTML = html;
+  hourSelect.disabled = !anyAvailable;
+  if (!anyAvailable) {
+    hourSelect.innerHTML = '<option value="">Няма свободни часове тази дата</option>';
+  }
+}
+
 (function renderCalendar(){
   var year = 2026, month = 8; // септември (0-indexed)
   var firstWeekday = new Date(year, month, 1).getDay(); // 0=Нд,1=Пн,...6=Сб
@@ -298,8 +363,12 @@ var dayLabels = {
     cellsHtml += '<div class="cal-day empty"></div>';
   }
   for (var d = 1; d <= daysInMonth; d++) {
-    if (dayLabels[d]) {
+    if (isDaySelectable(d)) {
       cellsHtml += '<div class="cal-day" data-day="' + d + '">' + d + '</div>';
+    } else if (dayLabels[d] && isPastCutoff(d)) {
+      cellsHtml += '<div class="cal-day disabled" title="Датата е отминала">' + d + '</div>';
+    } else if (dayLabels[d] && isDateFullyRestricted(d)) {
+      cellsHtml += '<div class="cal-day disabled" title="Няма свободни часове">' + d + '</div>';
     } else {
       cellsHtml += '<div class="cal-day disabled">' + d + '</div>';
     }
@@ -319,6 +388,7 @@ var dayLabels = {
       hiddenInput.value = dayLabels[day];
       infoBox.textContent = 'Избрана дата: ' + dayLabels[day];
       errorBox.style.display = 'none';
+      updateHourOptions(day);
     });
   });
 })();
