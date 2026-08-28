@@ -182,8 +182,18 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
     <div class="details">Варна, ул. Бреза 2 | Продължителност: ~2 часа | Максимум 6 участника</div>
   </div>
 
+  <!-- КАРТА: РАБОТИЛНИЦАТА Е ЗАПЪЛНЕНА (скрита по подразбиране) -->
+  <div class="step-card" id="soldOutCard" style="display:none; text-align:center;">
+    <h2 style="justify-content:center;">Тази дата е запълнена 😔</h2>
+    <p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:20px;">
+      Съжаляваме, всички места за <b id="soldOutWsName"></b> — <b id="soldOutWsDate"></b> вече са заети.
+      Виж другите свободни дати на страницата с работилници.
+    </p>
+    <a href="index.html#schedule-jes" class="submit-btn" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">← Към свободните дати</a>
+  </div>
+
   <!-- СТЪПКА 1: ФОРМА -->
-  <div class="step-card">
+  <div class="step-card" id="step1Card">
     <h2><span class="step-num">1</span>Твоите данни</h2>
     <form id="regForm" action="https://formspree.io/f/mpqgnbbd" method="POST">
       <div class="form-group">
@@ -258,6 +268,22 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
 
 <script>
 // ── Конфигурация на работилниците ──
+// За да обявиш дадена дата за ЗАПЪЛНЕНА: добави ред "soldOut: true,"
+// вътре в записа на съответната работилница (виж примера по-долу).
+// Формата вече не приема записвания и плащания за нея — вместо това
+// страницата показва съобщение и връща към графика с други дати.
+//
+// Пример:
+// 'jesmonite-05sept': {
+//   name: 'Jesmonite декор',
+//   date: '05 септември | 11:00',
+//   badge: 'РАБОТИЛНИЦА 01',
+//   badgeColor: '#3A5068',
+//   payLink: 'https://mypos.com/vmp/btn/B3LMCGI5LS533',
+//   soldOut: true   👈 добави този ред, за да я затвориш
+// },
+//
+// За да я отвориш пак — просто изтрий реда "soldOut: true,".
 var WORKSHOPS = {
   'jesmonite-26juli': {
     name: 'Jesmonite декор',
@@ -405,7 +431,6 @@ var WORKSHOPS = {
     badge: 'РАБОТИЛНИЦА 03',
     badgeColor: '#3d4a34',
     payLink: 'https://mypos.com/vmp/btn/BREVZKR837K89'
-    soldOut: true
   },
   'albums-17sept': {
     name: 'Какво казват ръцете ти?',
@@ -430,14 +455,26 @@ if (ws) {
   document.getElementById('payBtn').href = ws.payLink;
   document.title = 'Запазване: ' + ws.name + ' ' + ws.date + ' | Eleganssa Studio';
 
-  // ViewContent event
-  fbq('track', 'ViewContent', {
-    content_name: ws.name + ' — ' + ws.date,
-    content_category: 'Workshop',
-    content_type: 'product',
-    value: 20.00,
-    currency: 'EUR'
-  });
+  if (ws.soldOut) {
+    // Работилницата е маркирана като запълнена — скриваме формата и
+    // плащането, показваме съобщение вместо тях.
+    document.getElementById('step1Card').style.display = 'none';
+    document.getElementById('step2Card').style.display = 'none';
+    document.getElementById('wsBadge').textContent = 'ЗАПЪЛНЕНО';
+    document.getElementById('wsBadge').style.background = '#8a8a8a';
+    document.getElementById('soldOutWsName').textContent = ws.name;
+    document.getElementById('soldOutWsDate').textContent = ws.date;
+    document.getElementById('soldOutCard').style.display = 'block';
+  } else {
+    // ViewContent event
+    fbq('track', 'ViewContent', {
+      content_name: ws.name + ' — ' + ws.date,
+      content_category: 'Workshop',
+      content_type: 'product',
+      value: 20.00,
+      currency: 'EUR'
+    });
+  }
 } else {
   document.getElementById('wsBadge').style.background = '#2c3e50';
   document.getElementById('wsName').textContent = 'Работилница не е избрана';
