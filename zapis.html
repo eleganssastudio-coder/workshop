@@ -431,7 +431,6 @@ var WORKSHOPS = {
     badge: 'РАБОТИЛНИЦА 03',
     badgeColor: '#3d4a34',
     payLink: 'https://mypos.com/vmp/btn/BREVZKR837K89'
-    soldOut: true
   },
   'albums-17sept': {
     name: 'Какво казват ръцете ти?',
@@ -477,6 +476,12 @@ if (ws) {
     });
   }
 } else {
+  // Няма валиден ?workshop= параметър в линка — крием формата и
+  // плащането, за да не се подават заявки без информация коя
+  // работилница/дата е избрана.
+  document.getElementById('step1Card').style.display = 'none';
+  document.getElementById('step2Card').style.display = 'none';
+  document.getElementById('wsBadge').textContent = 'НЕ Е ИЗБРАНА';
   document.getElementById('wsBadge').style.background = '#2c3e50';
   document.getElementById('wsName').textContent = 'Работилница не е избрана';
   document.getElementById('wsDate').innerHTML = '<a href="index.html#schedule-jes" style="color:#3A5068;">← Избери работилница от сайта</a>';
