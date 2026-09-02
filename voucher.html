@@ -63,6 +63,19 @@ nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(253,24
 .voucher-preview .vp-price{ font-family:"Playfair Display",serif; font-size:38px; color:var(--gold); margin:10px 0; }
 .voucher-preview .vp-note{ font-size:13px; opacity:.8; }
 
+.voucher-type-toggle{
+  display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:28px;
+}
+.vt-option{
+  background:var(--card); border:2px solid var(--border); border-radius:14px;
+  padding:16px; cursor:pointer; text-align:center; font-family:Lato,sans-serif;
+  transition:.15s ease; display:flex; flex-direction:column; gap:4px;
+}
+.vt-option:hover{ border-color:var(--gold); }
+.vt-option.selected{ border-color:var(--gold); background:#fdf8ee; }
+.vt-option .vt-title{ font-weight:700; font-size:14px; color:var(--dark); }
+.vt-option .vt-price{ font-family:"Playfair Display",serif; font-size:20px; color:var(--gold); }
+
 .step-card{
   background:var(--card);
   border:1px solid var(--border);
@@ -151,14 +164,26 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
   <div class="hero-header">
     <span class="hero-badge">ПОДАРЪЧЕН ВАУЧЕР</span>
     <h1>Подари преживяване</h1>
-    <p>Ваучер за всички работилници — получателят избира сам коя и кога.</p>
+    <p>Ваучер за работилница по Jesmonite декор или Соева свещ — получателят избира сам коя и кога.</p>
   </div>
 
   <div class="voucher-preview">
     <div class="vp-label">ELEGANSSA STUDIO</div>
     <h2>Подаръчен ваучер</h2>
-    <div class="vp-price">39 €</div>
-    <div class="vp-note">Валиден 6 месеца · За всички работилници </div>
+    <div class="vp-price" id="vpPrice">39 €</div>
+    <div class="vp-note">Валиден 6 месеца · За Jesmonite декор или Соева свещ</div>
+  </div>
+
+  <!-- ИЗБОР: ЗА 1 ИЛИ ЗА ДВАМА -->
+  <div class="voucher-type-toggle" id="voucherTypeToggle">
+    <button type="button" class="vt-option selected" data-type="single" onclick="selectVoucherType('single')">
+      <span class="vt-title">За 1 човек</span>
+      <span class="vt-price">39 €</span>
+    </button>
+    <button type="button" class="vt-option" data-type="double" onclick="selectVoucherType('double')">
+      <span class="vt-title">За двама</span>
+      <span class="vt-price">78 €</span>
+    </button>
   </div>
 
   <!-- СТЪПКА 1: ФОРМА -->
@@ -181,7 +206,7 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
         <label>Лично послание <span class="optional">(по избор)</span></label>
         <textarea name="message" placeholder="Кратко послание, което да добавим към ваучера"></textarea>
       </div>
-      <input type="hidden" name="order_type" value="Подаръчен ваучер — 39 €">
+      <input type="hidden" name="order_type" id="orderTypeHidden" value="Подаръчен ваучер за 1 — 39 €">
       <input type="hidden" name="voucher_code" id="voucherCodeHidden" value="">
       <div class="consent-row">
         <input type="checkbox" required id="gdprCheck">
@@ -198,11 +223,11 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
   <!-- СТЪПКА 2: ПЛАЩАНЕ -->
   <div class="step-card" id="step2Card">
     <div id="step2Inner">
-      <h2><span class="step-num">2</span>Плати 39 €</h2>
+      <h2><span class="step-num">2</span><span id="step2Title">Плати 39 €</span></h2>
       <p style="font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.7;">
         Ваучерът ще получиш на посочения имейл в рамките на 24 часа след плащането.
       </p>
-      <a class="pay-btn" href="https://mypos.com/vmp/btn/BJN3VLLISN589" onclick="trackVoucherPay()">Плати с карта — 39 €</a>
+      <a class="pay-btn" id="payBtn" href="https://mypos.com/vmp/btn/BJN3VLLISN589" onclick="trackVoucherPay()">Плати с карта — 39 €</a>
       <p class="pay-note">Сигурно плащане през myPOS. Ще бъдеш пренасочен/а към защитена страница.</p>
 
       <div class="info-box">
@@ -216,7 +241,7 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
 
   <div class="help-box">
     При въпроси или съдействие:<br>
-    <a href="tel:+359885442821"> 0885 442 821</a>
+    <a href="tel:+359885442821">📞 0885 442 821</a>
   </div>
 
 </div>
@@ -228,12 +253,54 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
 </footer>
 
 <script>
+// ── Конфигурация на вариантите на ваучера ──
+// За да смениш цена или MyPos линк — редактирай тук, нищо друго не пипаш.
+var VOUCHER_TYPES = {
+  single: {
+    label: 'За 1 човек',
+    price: 39,
+    payLink: 'https://mypos.com/vmp/btn/BJN3VLLISN589',
+    orderType: 'Подаръчен ваучер за 1 — 39 €'
+  },
+  double: {
+    label: 'За двама',
+    price: 78,
+    payLink: 'https://mypos.com/vmp/btn/BS8HPDAB7XW97',
+    orderType: 'Подаръчен ваучер за двама — 78 €'
+  }
+};
+var selectedVoucherType = 'single';
+
+function selectVoucherType(type){
+  selectedVoucherType = type;
+  var cfg = VOUCHER_TYPES[type];
+
+  document.querySelectorAll('.vt-option').forEach(function(btn){
+    btn.classList.toggle('selected', btn.getAttribute('data-type') === type);
+  });
+
+  document.getElementById('vpPrice').textContent = cfg.price + ' €';
+  document.getElementById('orderTypeHidden').value = cfg.orderType;
+  document.getElementById('step2Title').textContent = 'Плати ' + cfg.price + ' €';
+  var payBtn = document.getElementById('payBtn');
+  payBtn.href = cfg.payLink;
+  payBtn.textContent = 'Плати с карта — ' + cfg.price + ' €';
+
+  fbq('track', 'ViewContent', {
+    content_name: 'Подаръчен ваучер — ' + cfg.label,
+    content_category: 'Voucher',
+    value: cfg.price,
+    currency: 'EUR'
+  });
+}
+
 function trackVoucherPay(){
+  var cfg = VOUCHER_TYPES[selectedVoucherType];
   fbq('track', 'InitiateCheckout', {
-    content_name: 'Подаръчен ваучер',
+    content_name: 'Подаръчен ваучер — ' + cfg.label,
     content_category: 'Voucher',
     content_type: 'product',
-    value: 39.00,
+    value: cfg.price,
     currency: 'EUR',
     num_items: 1
   });
@@ -274,7 +341,7 @@ document.getElementById('voucherForm').addEventListener('submit', function(e){
       document.getElementById('formSuccess').style.display = 'block';
       btn.textContent = '✓ Изпратено';
 
-      fbq('track', 'Lead', { content_name: 'Подаръчен ваучер', content_category: 'Voucher' });
+      fbq('track', 'Lead', { content_name: 'Подаръчен ваучер — ' + VOUCHER_TYPES[selectedVoucherType].label, content_category: 'Voucher' });
     } else {
       btn.disabled = false;
       btn.textContent = 'Изпрати данните';
