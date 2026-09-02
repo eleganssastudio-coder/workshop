@@ -140,6 +140,17 @@ nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(253,24
 }
 .pay-note{ font-size:12px; color:var(--muted); text-align:center; line-height:1.6; }
 
+.payment-tabs{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+.pay-tab{
+  background:var(--card); border:2px solid var(--border); border-radius:14px;
+  padding:18px; text-align:center; text-decoration:none; cursor:pointer;
+  display:flex; flex-direction:column; gap:4px; transition:.15s ease;
+}
+.pay-tab:hover{ border-color:var(--gold); }
+.pay-tab.selected{ border-color:var(--gold); background:#fdf8ee; }
+.pay-tab .pt-label{ font-weight:700; font-size:14px; color:var(--dark); }
+.pay-tab .pt-price{ font-family:"Playfair Display",serif; font-size:22px; color:var(--gold); }
+
 .info-box{
   background:var(--bg); border-radius:12px; padding:18px 20px;
   font-size:13px; color:var(--muted); line-height:1.8; margin-top:16px;
@@ -170,7 +181,6 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
   <div class="voucher-preview">
     <div class="vp-label">ELEGANSSA STUDIO</div>
     <h2>Подаръчен ваучер</h2>
-    <div class="vp-price" id="vpPrice">39 €</div>
     <div class="vp-note">Валиден 6 месеца · За Jesmonite декор или Соева свещ</div>
   </div>
 
@@ -223,11 +233,24 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
   <!-- СТЪПКА 2: ПЛАЩАНЕ -->
   <div class="step-card" id="step2Card">
     <div id="step2Inner">
-      <h2><span class="step-num">2</span><span id="step2Title">Плати 39 €</span></h2>
+      <h2><span class="step-num">2</span>Плати с карта</h2>
       <p style="font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.7;">
         Ваучерът ще получиш на посочения имейл в рамките на 24 часа след плащането.
       </p>
-      <a class="pay-btn" id="payBtn" href="https://mypos.com/vmp/btn/BJN3VLLISN589" onclick="trackVoucherPay()">Плати с карта — 39 €</a>
+      <div class="payment-tabs" id="paymentTabs">
+        <a class="pay-tab selected" data-type="single"
+           href="https://mypos.com/vmp/btn/BJN3VLLISN589"
+           onclick="selectVoucherType('single'); trackVoucherPay();">
+          <span class="pt-label">Плати с карта</span>
+          <span class="pt-price">39 €</span>
+        </a>
+        <a class="pay-tab" data-type="double"
+           href="https://mypos.com/vmp/btn/BS8HPDAB7XW97"
+           onclick="selectVoucherType('double'); trackVoucherPay();">
+          <span class="pt-label">Плати с карта</span>
+          <span class="pt-price">78 €</span>
+        </a>
+      </div>
       <p class="pay-note">Сигурно плащане през myPOS. Ще бъдеш пренасочен/а към защитена страница.</p>
 
       <div class="info-box">
@@ -278,13 +301,11 @@ function selectVoucherType(type){
   document.querySelectorAll('.vt-option').forEach(function(btn){
     btn.classList.toggle('selected', btn.getAttribute('data-type') === type);
   });
+  document.querySelectorAll('.pay-tab').forEach(function(tab){
+    tab.classList.toggle('selected', tab.getAttribute('data-type') === type);
+  });
 
-  document.getElementById('vpPrice').textContent = cfg.price + ' €';
   document.getElementById('orderTypeHidden').value = cfg.orderType;
-  document.getElementById('step2Title').textContent = 'Плати ' + cfg.price + ' €';
-  var payBtn = document.getElementById('payBtn');
-  payBtn.href = cfg.payLink;
-  payBtn.textContent = 'Плати с карта — ' + cfg.price + ' €';
 
   fbq('track', 'ViewContent', {
     content_name: 'Подаръчен ваучер — ' + cfg.label,
