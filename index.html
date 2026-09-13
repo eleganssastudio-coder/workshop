@@ -461,6 +461,16 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
         </a>
         <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
       </div>
+      <div class="schedule-card-jes">
+        <h3>27 септември | 11:00</h3>
+        <p>Варна, ул. Бреза 2</p>
+        <p>Продължителност: ~2 часа</p>
+        <p class="spots">Максимум 6 участника</p>
+        <a class="btn-jes" href="zapis.html?workshop=jesmonite-27sept">
+          Запази място — капаро 20 €
+        </a>
+        <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
+      </div>
     </div>
   </section>
 
@@ -527,6 +537,7 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
         <a class="cta-solid-jes" href="zapis.html?workshop=jesmonite-05sept">05 септември | 11:00 — 20 €</a>
         <a class="cta-outline" href="zapis.html?workshop=jesmonite-12sept">12 септември | 15:00 — 20 €</a>
         <a class="cta-outline" href="zapis.html?workshop=jesmonite-19sept">19 септември | 11:00 — 20 €</a>
+        <a class="cta-outline" href="zapis.html?workshop=jesmonite-27sept">27 септември | 11:00 — 20 €</a>
       </div>
       <p style="margin-top:18px;font-size:13px;opacity:.8;">Варна, ул. Бреза 2 | 0885 442 821 | eleganssastudio@gmail.com</p>
     </div>
@@ -586,6 +597,16 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
         </a>
         <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
       </div>
+      <div class="schedule-card-can">
+        <h3>26 септември | 11:00</h3>
+        <p>Варна, ул. Бреза 2</p>
+        <p>Продължителност: ~2 часа</p>
+        <p class="spots">Максимум 6 участника</p>
+        <a class="btn-can" href="zapis.html?workshop=svesht-26sept">
+          Запази място — капаро 20 €
+        </a>
+        <p style="font-size:11px;opacity:.7;margin-top:8px;">Капарото е 20 €. Остатъкът от 19 € се заплаща на място.</p>
+      </div>
     </div>
   </section>
 
@@ -628,6 +649,7 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
         <a class="cta-solid-can" href="zapis.html?workshop=svesht-05sept">05 септември | 15:00 — 20 €</a>
         <a class="cta-outline" href="zapis.html?workshop=svesht-12sept">12 септември | 11:00 — 20 €</a>
         <a class="cta-outline" href="zapis.html?workshop=svesht-19sept">19 септември | 15:00 — 20 €</a>
+        <a class="cta-outline" href="zapis.html?workshop=svesht-26sept">26 септември | 11:00 — 20 €</a>
       </div>
       <p style="margin-top:18px;font-size:13px;opacity:.8;">Варна, ул. Бреза 2 | 0885 442 821 | eleganssastudio@gmail.com</p>
     </div>
@@ -846,17 +868,49 @@ footer{ background:#2c3e50; color:var(--cream); padding:28px; text-align:center;
   }
 })();
 
-// ── InitiateCheckout — fires on payment button click ──
-function trackCheckout(name, date, value) {
-  fbq('track', 'InitiateCheckout', {
-    content_name: name + ' — ' + date,
-    content_category: 'Workshop',
-    content_type: 'product',
-    value: value,
-    currency: 'EUR',
-    num_items: 1
+// ── Автоматично блокиране на отминали дати ──
+// Чете текста на всяка карта/бутон (напр. "27 септември | 11:00"),
+// сравнява с текущия момент и деактивира тези, чиято дата е минала.
+// Не се налага ръчна редакция — работи само на база днешната дата.
+(function blockPastDates(){
+  var BG_MONTHS = {
+    'януари':0,'февруари':1,'март':2,'април':3,'май':4,'юни':5,
+    'юли':6,'август':7,'септември':8,'октомври':9,'ноември':10,'декември':11
+  };
+  function parseDT(text){
+    var m = text.match(/(\d{1,2})\s+([а-яА-Я]+)\s*\|\s*(\d{1,2}):(\d{2})/);
+    if (!m) return null;
+    var month = BG_MONTHS[m[2].toLowerCase()];
+    if (month === undefined) return null;
+    return new Date(2026, month, parseInt(m[1], 10), parseInt(m[3], 10), parseInt(m[4], 10));
+  }
+  var now = new Date();
+
+  // Картите в графика (h3 съдържа датата, бутонът е .btn-jes/.btn-can/.btn-alb)
+  document.querySelectorAll('.schedule-card-jes, .schedule-card-can, .schedule-card-alb').forEach(function(card){
+    var h3 = card.querySelector('h3');
+    if (!h3) return;
+    var dt = parseDT(h3.textContent);
+    if (!dt || now <= dt) return;
+    var btn = card.querySelector('a[class^="btn-"]');
+    if (!btn) return; // вече е soldOut span или друго — не пипаме
+    var span = document.createElement('span');
+    span.className = 'btn-soldout';
+    span.textContent = 'Отминала дата';
+    btn.parentNode.replaceChild(span, btn);
+    card.style.opacity = '.6';
   });
-}
+
+  // CTA бутоните долу (текстът вътре в самата връзка съдържа датата)
+  document.querySelectorAll('.cta-btns a[class^="cta-"]').forEach(function(btn){
+    var dt = parseDT(btn.textContent);
+    if (!dt || now <= dt) return;
+    var span = document.createElement('span');
+    span.className = 'cta-soldout';
+    span.textContent = btn.textContent.replace(/—.*/, '— Отминала дата');
+    btn.parentNode.replaceChild(span, btn);
+  });
+})();
 </script>
 
 </body>

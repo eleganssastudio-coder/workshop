@@ -179,16 +179,13 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
     <span class="workshop-badge" id="wsBadge">РАБОТИЛНИЦА</span>
     <h1 id="wsName">Записване</h1>
     <div class="date" id="wsDate"></div>
-    <div class="details">Варна, ул. Бреза 2 | Продължителност: ~2,5 часа | Максимум 6 участника</div>
+    <div class="details">Варна, ул. Бреза 2 | Продължителност: ~2 часа | Максимум 6 участника</div>
   </div>
 
-  <!-- КАРТА: РАБОТИЛНИЦАТА Е ЗАПЪЛНЕНА (скрита по подразбиране) -->
+  <!-- КАРТА: РАБОТИЛНИЦАТА Е ЗАПЪЛНЕНА / ОТМИНАЛА (скрита по подразбиране) -->
   <div class="step-card" id="soldOutCard" style="display:none; text-align:center;">
-    <h2 style="justify-content:center;">Тази дата е запълнена 😔</h2>
-    <p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:20px;">
-      Съжаляваме, всички места за <b id="soldOutWsName"></b> — <b id="soldOutWsDate"></b> вече са заети.
-      Виж другите свободни дати на страницата с работилници.
-    </p>
+    <h2 id="soldOutTitle" style="justify-content:center;">Тази дата е запълнена 😔</h2>
+    <p id="soldOutText" style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:20px;"></p>
     <a href="index.html#schedule-jes" class="submit-btn" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">← Към свободните дати</a>
   </div>
 
@@ -348,6 +345,13 @@ var WORKSHOPS = {
     badgeColor: '#3A5068',
     payLink: 'https://mypos.com/vmp/btn/BUICP7YINEW68'
   },
+  'jesmonite-27sept': {
+    name: 'Jesmonite декор',
+    date: '27 септември | 11:00',
+    badge: 'РАБОТИЛНИЦА 01',
+    badgeColor: '#3A5068',
+    payLink: 'https://mypos.com/vmp/btn/BAJ7WDYF5VG02'
+  },
   'svesht-25juli': {
     name: 'Соева свещ',
     date: '25 юли | 17:00',
@@ -411,6 +415,13 @@ var WORKSHOPS = {
     badgeColor: '#9a543d',
     payLink: 'https://mypos.com/vmp/btn/B3JR8FH5RRL15'
   },
+  'svesht-26sept': {
+    name: 'Соева свещ',
+    date: '26 септември | 11:00',
+    badge: 'РАБОТИЛНИЦА 02',
+    badgeColor: '#9a543d',
+    payLink: 'https://mypos.com/vmp/btn/BIW9HDMQT1710'
+  },
   'albums-10avgust': {
     name: 'Какво казват ръцете ти?',
     date: '10 август | 18:00',
@@ -448,6 +459,27 @@ var WORKSHOPS = {
   }
 };
 
+// ── Проверка дали дадена дата вече е отминала ──
+// Разчита текстовото поле "date" (напр. "27 септември | 11:00") и го
+// сравнява с текущия момент. Работи автоматично — не се налага
+// ръчно да се редактира нищо, за разлика от soldOut.
+var BG_MONTHS = {
+  'януари':0,'февруари':1,'март':2,'април':3,'май':4,'юни':5,
+  'юли':6,'август':7,'септември':8,'октомври':9,'ноември':10,'декември':11
+};
+function parseWorkshopDateTime(dateStr){
+  var m = dateStr.match(/(\d{1,2})\s+([а-яА-Я]+)\s*\|\s*(\d{1,2}):(\d{2})/);
+  if (!m) return null;
+  var month = BG_MONTHS[m[2].toLowerCase()];
+  if (month === undefined) return null;
+  return new Date(2026, month, parseInt(m[1], 10), parseInt(m[3], 10), parseInt(m[4], 10));
+}
+function isWorkshopPast(ws){
+  var dt = parseWorkshopDateTime(ws.date);
+  if (!dt) return false; // ако форматът не се разпознае, не блокираме по грешка
+  return new Date() > dt;
+}
+
 // ── Прочети параметъра от URL ──
 var params = new URLSearchParams(window.location.search);
 var wsKey = params.get('workshop');
@@ -469,8 +501,17 @@ if (ws) {
     document.getElementById('step2Card').style.display = 'none';
     document.getElementById('wsBadge').textContent = 'ЗАПЪЛНЕНО';
     document.getElementById('wsBadge').style.background = '#8a8a8a';
-    document.getElementById('soldOutWsName').textContent = ws.name;
-    document.getElementById('soldOutWsDate').textContent = ws.date;
+    document.getElementById('soldOutTitle').textContent = 'Тази дата е запълнена 😔';
+    document.getElementById('soldOutText').innerHTML = 'Съжаляваме, всички места за <b>' + ws.name + '</b> — <b>' + ws.date + '</b> вече са заети. Виж другите свободни дати на страницата с работилници.';
+    document.getElementById('soldOutCard').style.display = 'block';
+  } else if (isWorkshopPast(ws)) {
+    // Датата вече е отминала — блокираме автоматично, без ръчна намеса.
+    document.getElementById('step1Card').style.display = 'none';
+    document.getElementById('step2Card').style.display = 'none';
+    document.getElementById('wsBadge').textContent = 'ОТМИНАЛА ДАТА';
+    document.getElementById('wsBadge').style.background = '#8a8a8a';
+    document.getElementById('soldOutTitle').textContent = 'Тази дата вече отмина 🕒';
+    document.getElementById('soldOutText').innerHTML = '<b>' + ws.name + '</b> — <b>' + ws.date + '</b> вече се е провела. Виж предстоящите свободни дати на страницата с работилници.';
     document.getElementById('soldOutCard').style.display = 'block';
   } else {
     // ViewContent event
