@@ -175,24 +175,36 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
   <div class="hero-header">
     <span class="hero-badge">ПОДАРЪЧЕН ВАУЧЕР</span>
     <h1>Подари преживяване</h1>
-    <p>Ваучер за работилница по Jesmonite декор, Соева свещ или декорация на корица на албум с гост психолог — получателят избира сам коя и кога.</p>
+    <p>Ваучер за работилница по Jesmonite декор, Соева свещ или мини сесия — получателят избира сам кога.</p>
   </div>
 
   <div class="voucher-preview">
     <div class="vp-label">ELEGANSSA STUDIO</div>
     <h2>Подаръчен ваучер</h2>
-    <div class="vp-note">Валиден 6 месеца · За всички работилници в нашето ателие</div>
+    <div class="vp-note" id="vpNote">Валиден 6 месеца · За Jesmonite декор или Соева свещ</div>
   </div>
 
-  <!-- ИЗБОР: ЗА 1 ИЛИ ЗА ДВАМА -->
-  <div class="voucher-type-toggle" id="voucherTypeToggle">
-    <button type="button" class="vt-option selected" data-type="single" onclick="selectVoucherType('single')">
-      <span class="vt-title">За 1 човек</span>
-      <span class="vt-price">39 €</span>
+  <!-- ИЗБОР 1: ГОЛЯМА РАБОТИЛНИЦА ИЛИ МИНИ СЕСИЯ -->
+  <div class="voucher-type-toggle" id="categoryToggle">
+    <button type="button" class="vt-option selected" data-cat="workshop" onclick="selectCategory('workshop')">
+      <span class="vt-title">Голяма работилница</span>
+      <span class="vt-price">Jesmonite / Свещ</span>
     </button>
-    <button type="button" class="vt-option" data-type="double" onclick="selectVoucherType('double')">
+    <button type="button" class="vt-option" data-cat="mini" onclick="selectCategory('mini')">
+      <span class="vt-title">Мини сесия</span>
+      <span class="vt-price">на място</span>
+    </button>
+  </div>
+
+  <!-- ИЗБОР 2: ЗА 1 ИЛИ ЗА ДВАМА -->
+  <div class="voucher-type-toggle" id="voucherTypeToggle">
+    <button type="button" class="vt-option selected" data-type="single" onclick="selectSize('single')">
+      <span class="vt-title">За 1 човек</span>
+      <span class="vt-price" id="sizePriceSingle">39 €</span>
+    </button>
+    <button type="button" class="vt-option" data-type="double" onclick="selectSize('double')">
       <span class="vt-title">За двама</span>
-      <span class="vt-price">78 €</span>
+      <span class="vt-price" id="sizePriceDouble">78 €</span>
     </button>
   </div>
 
@@ -238,17 +250,17 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
         Ваучерът ще получиш на посочения имейл в рамките на 24 часа след плащането.
       </p>
       <div class="payment-tabs" id="paymentTabs">
-        <a class="pay-tab selected" data-type="single"
+        <a class="pay-tab selected" data-type="single" id="payTabSingle"
            href="https://mypos.com/vmp/btn/BJN3VLLISN589"
-           onclick="selectVoucherType('single'); trackVoucherPay();">
+           onclick="selectSize('single'); trackVoucherPay();">
           <span class="pt-label">Плати с карта</span>
-          <span class="pt-price">39 €</span>
+          <span class="pt-price" id="payTabSinglePrice">39 €</span>
         </a>
-        <a class="pay-tab" data-type="double"
+        <a class="pay-tab" data-type="double" id="payTabDouble"
            href="https://mypos.com/vmp/btn/BS8HPDAB7XW97"
-           onclick="selectVoucherType('double'); trackVoucherPay();">
+           onclick="selectSize('double'); trackVoucherPay();">
           <span class="pt-label">Плати с карта</span>
-          <span class="pt-price">78 €</span>
+          <span class="pt-price" id="payTabDoublePrice">78 €</span>
         </a>
       </div>
       <p class="pay-note">Сигурно плащане през myPOS. Ще бъдеш пренасочен/а към защитена страница.</p>
@@ -257,14 +269,14 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
         <b>Как работи ваучерът:</b><br>
         1. Плащаш и получаваш персонализиран PDF ваучер с уникален код на имейла си<br>
         2. Подаряваш го на когото искаш<br>
-        3. Получателят избира дата от графика на сайта и вписва кода при записване вместо плащане на капаро
+        3. <span id="redeemStepText">Получателят избира дата от графика на сайта и вписва кода при записване вместо плащане на капаро</span>
       </div>
     </div>
   </div>
 
   <div class="help-box">
     При въпроси или съдействие:<br>
-    <a href="tel:+359885442821"> 0885 442 821</a>
+    <a href="tel:+359885442821">📞 0885 442 821</a>
   </div>
 
 </div>
@@ -278,32 +290,89 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
 <script>
 // ── Конфигурация на вариантите на ваучера ──
 // За да смениш цена или MyPos линк — редактирай тук, нищо друго не пипаш.
+// Структура: VOUCHER_TYPES[категория][размер]
 var VOUCHER_TYPES = {
-  single: {
-    label: 'За 1 човек',
-    price: 39,
-    payLink: 'https://mypos.com/vmp/btn/BJN3VLLISN589',
-    orderType: 'Подаръчен ваучер за 1 — 39 €'
+  workshop: {
+    single: {
+      label: 'Голяма работилница — за 1',
+      price: 39,
+      payLink: 'https://mypos.com/vmp/btn/BJN3VLLISN589',
+      orderType: 'Подаръчен ваучер за 1 (голяма работилница) — 39 €'
+    },
+    double: {
+      label: 'Голяма работилница — за двама',
+      price: 78,
+      payLink: 'https://mypos.com/vmp/btn/BS8HPDAB7XW97',
+      orderType: 'Подаръчен ваучер за двама (голяма работилница) — 78 €'
+    }
   },
-  double: {
-    label: 'За двама',
-    price: 78,
-    payLink: 'https://mypos.com/vmp/btn/BS8HPDAB7XW97',
-    orderType: 'Подаръчен ваучер за двама — 78 €'
+  mini: {
+    single: {
+      label: 'Мини сесия — за 1',
+      price: 25,
+      payLink: 'https://mypos.com/vmp/btn/BM5DAWNBM2I26',
+      orderType: 'Подаръчен ваучер за 1 (мини сесия) — 25 €'
+    },
+    double: {
+      label: 'Мини сесия — за двама',
+      price: 50,
+      payLink: 'https://mypos.com/vmp/btn/BMBF3VNP7Y904',
+      orderType: 'Подаръчен ваучер за двама (мини сесия) — 50 €'
+    }
   }
 };
-var selectedVoucherType = 'single';
 
-function selectVoucherType(type){
-  selectedVoucherType = type;
-  var cfg = VOUCHER_TYPES[type];
+var CATEGORY_TEXT = {
+  workshop: {
+    note: 'Валиден 6 месеца · За Jesmonite декор или Соева свещ',
+    redeemStep: 'Получателят избира дата от графика на сайта и вписва кода при записване вместо плащане на капаро'
+  },
+  mini: {
+    note: 'Валиден 6 месеца · За мини сесия (свещ, спрей или декор на място)',
+    redeemStep: 'Получателят избира час за мини сесия в сайта и вписва кода в заявката, вместо да плаща на място'
+  }
+};
 
-  document.querySelectorAll('.vt-option').forEach(function(btn){
-    btn.classList.toggle('selected', btn.getAttribute('data-type') === type);
+var selectedCategory = 'workshop';
+var selectedSize = 'single';
+
+function currentCfg(){
+  return VOUCHER_TYPES[selectedCategory][selectedSize];
+}
+
+function selectCategory(cat){
+  selectedCategory = cat;
+  document.querySelectorAll('#categoryToggle .vt-option').forEach(function(btn){
+    btn.classList.toggle('selected', btn.getAttribute('data-cat') === cat);
   });
+  document.getElementById('vpNote').textContent = CATEGORY_TEXT[cat].note;
+  document.getElementById('redeemStepText').textContent = CATEGORY_TEXT[cat].redeemStep;
+
+  // цените в размер-табовете и плащане-табовете се обновяват спрямо новата категория
+  document.getElementById('sizePriceSingle').textContent = VOUCHER_TYPES[cat].single.price + ' €';
+  document.getElementById('sizePriceDouble').textContent = VOUCHER_TYPES[cat].double.price + ' €';
+
+  refreshSelection();
+}
+
+function selectSize(size){
+  selectedSize = size;
+  document.querySelectorAll('#voucherTypeToggle .vt-option').forEach(function(btn){
+    btn.classList.toggle('selected', btn.getAttribute('data-type') === size);
+  });
+  refreshSelection();
+}
+
+function refreshSelection(){
+  var cfg = currentCfg();
+
   document.querySelectorAll('.pay-tab').forEach(function(tab){
-    tab.classList.toggle('selected', tab.getAttribute('data-type') === type);
+    tab.classList.toggle('selected', tab.getAttribute('data-type') === selectedSize);
   });
+  document.getElementById('payTabSingle').href = VOUCHER_TYPES[selectedCategory].single.payLink;
+  document.getElementById('payTabDouble').href = VOUCHER_TYPES[selectedCategory].double.payLink;
+  document.getElementById('payTabSinglePrice').textContent = VOUCHER_TYPES[selectedCategory].single.price + ' €';
+  document.getElementById('payTabDoublePrice').textContent = VOUCHER_TYPES[selectedCategory].double.price + ' €';
 
   document.getElementById('orderTypeHidden').value = cfg.orderType;
 
@@ -316,7 +385,7 @@ function selectVoucherType(type){
 }
 
 function trackVoucherPay(){
-  var cfg = VOUCHER_TYPES[selectedVoucherType];
+  var cfg = currentCfg();
   fbq('track', 'InitiateCheckout', {
     content_name: 'Подаръчен ваучер — ' + cfg.label,
     content_category: 'Voucher',
@@ -338,6 +407,10 @@ function generateVoucherCode(){
   }
   return 'ELEG-' + code;
 }
+
+// Инициализация при зареждане — синхронизира hidden полето с реалните
+// стойности по подразбиране, дори клиентът да не пипне никой бутон.
+refreshSelection();
 
 document.getElementById('voucherForm').addEventListener('submit', function(e){
   e.preventDefault();
@@ -362,7 +435,7 @@ document.getElementById('voucherForm').addEventListener('submit', function(e){
       document.getElementById('formSuccess').style.display = 'block';
       btn.textContent = '✓ Изпратено';
 
-      fbq('track', 'Lead', { content_name: 'Подаръчен ваучер — ' + VOUCHER_TYPES[selectedVoucherType].label, content_category: 'Voucher' });
+      fbq('track', 'Lead', { content_name: 'Подаръчен ваучер — ' + currentCfg().label, content_category: 'Voucher' });
     } else {
       btn.disabled = false;
       btn.textContent = 'Изпрати данните';

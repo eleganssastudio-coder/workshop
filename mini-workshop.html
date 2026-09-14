@@ -226,6 +226,11 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
         <input type="text" name="product_choice" placeholder="напр. свещ, спрей, декор — или ще решиш на място">
       </div>
       <div class="form-group">
+        <label>Имаш ли подаръчен ваучер? <span style="color:var(--muted);font-weight:400;">(по избор)</span></label>
+        <input type="text" name="voucher_code" placeholder="напр. ELEG-7F3K9">
+        <p style="font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5;">Ако имаш код от подаръчен ваучер за мини сесия, въведи го тук — тогава не плащаш на място.</p>
+      </div>
+      <div class="form-group">
         <label>Съобщение <span style="color:var(--muted);font-weight:400;">(по избор)</span></label>
         <textarea name="message" placeholder="Алтернативен час, брой хора, друго..."></textarea>
       </div>
@@ -299,11 +304,7 @@ var RESTRICTED_HOURS_BY_DATE = {
   // 1: ["17:00", "18:00"],
 };
 var BOOKED_SLOTS_BY_DATE = {
-  1: ["11:00"],
-  3: ["11:00", "12:00", "13:00", "14:00", "15:00"],
-  10: ["17:00", "18:00"],
-  11: ["11:00"],
-  15: ["11:00"],
+  // 1: ["14:00"],
 };
 var ALL_HOURS = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];
 
