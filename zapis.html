@@ -182,15 +182,8 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
     <div class="details">Варна, ул. Бреза 2 | Продължителност: ~2 часа | Максимум 6 участника</div>
   </div>
 
-  <!-- КАРТА: РАБОТИЛНИЦАТА Е ЗАПЪЛНЕНА / ОТМИНАЛА (скрита по подразбиране) -->
-  <div class="step-card" id="soldOutCard" style="display:none; text-align:center;">
-    <h2 id="soldOutTitle" style="justify-content:center;">Тази дата е запълнена 😔</h2>
-    <p id="soldOutText" style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:20px;"></p>
-    <a href="index.html#schedule-jes" class="submit-btn" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">← Към свободните дати</a>
-  </div>
-
   <!-- СТЪПКА 1: ФОРМА -->
-  <div class="step-card" id="step1Card">
+  <div class="step-card">
     <h2><span class="step-num">1</span>Твоите данни</h2>
     <form id="regForm" action="https://formspree.io/f/mpqgnbbd" method="POST">
       <div class="form-group">
@@ -265,220 +258,64 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
 
 <script>
 // ── Конфигурация на работилниците ──
-// За да обявиш дадена дата за ЗАПЪЛНЕНА: добави ред "soldOut: true,"
-// вътре в записа на съответната работилница (виж примера по-долу).
-// Формата вече не приема записвания и плащания за нея — вместо това
-// страницата показва съобщение и връща към графика с други дати.
-//
-// Пример:
-// 'jesmonite-05sept': {
-//   name: 'Jesmonite декор',
-//   date: '05 септември | 11:00',
-//   badge: 'РАБОТИЛНИЦА 01',
-//   badgeColor: '#3A5068',
-//   payLink: 'https://mypos.com/vmp/btn/B3LMCGI5LS533',
-//   soldOut: true   👈 добави този ред, за да я затвориш
-// },
-//
-// За да я отвориш пак — просто изтрий реда "soldOut: true,".
 var WORKSHOPS = {
-  'jesmonite-26juli': {
+  'jesmonite-15nov': {
     name: 'Jesmonite декор',
-    date: '26 юли | 17:00',
+    date: '15 ноември | 15:00',
     badge: 'РАБОТИЛНИЦА 01',
     badgeColor: '#3A5068',
-    payLink: 'https://mypos.com/vmp/btn/BVH99UXUDWC65'
+    payLink: 'https://mypos.com/vmp/btn/BI2GGDVGXU702'
   },
-  'jesmonite-02avgust': {
+  'jesmonite-21nov': {
     name: 'Jesmonite декор',
-    date: '02 август | 17:00',
+    date: '21 ноември | 11:00',
     badge: 'РАБОТИЛНИЦА 01',
     badgeColor: '#3A5068',
-    payLink: 'https://mypos.com/vmp/btn/BTNAJAF2K7643'
+    payLink: 'https://mypos.com/vmp/btn/BSB3PPG6BPE20'
   },
-  'jesmonite-08avgust': {
+  'jesmonite-28nov': {
     name: 'Jesmonite декор',
-    date: '08 август | 17:00',
+    date: '28 ноември | 15:00',
     badge: 'РАБОТИЛНИЦА 01',
     badgeColor: '#3A5068',
-    payLink: 'https://mypos.com/vmp/btn/BG2DQH77H8M49'
+    payLink: 'https://mypos.com/vmp/btn/BDJY7QRAPI498'
   },
-  'jesmonite-16avgust': {
-    name: 'Jesmonite декор',
-    date: '16 август | 17:00',
-    badge: 'РАБОТИЛНИЦА 01',
-    badgeColor: '#3A5068',
-    payLink: 'https://mypos.com/vmp/btn/B8EWLZA8WTB81'
-  },
-  'jesmonite-22avgust': {
-    name: 'Jesmonite декор',
-    date: '22 август | 17:00',
-    badge: 'РАБОТИЛНИЦА 01',
-    badgeColor: '#3A5068',
-    payLink: 'https://mypos.com/vmp/btn/BVWK4UNCORX45'
-  },
-  'jesmonite-30avgust': {
-    name: 'Jesmonite декор',
-    date: '30 август | 17:00',
-    badge: 'РАБОТИЛНИЦА 01',
-    badgeColor: '#3A5068',
-    payLink: 'https://mypos.com/vmp/btn/BXRTC9DBGE515'
-  },
-  'jesmonite-05sept': {
-    name: 'Jesmonite декор',
-    date: '05 септември | 11:00',
-    badge: 'РАБОТИЛНИЦА 01',
-    badgeColor: '#3A5068',
-    payLink: 'https://mypos.com/vmp/btn/B3LMCGI5LS533'
-  },
-  'jesmonite-12sept': {
-    name: 'Jesmonite декор',
-    date: '12 септември | 15:00',
-    badge: 'РАБОТИЛНИЦА 01',
-    badgeColor: '#3A5068',
-    payLink: 'https://mypos.com/vmp/btn/BEV159EA1KT50'
-  },
-  'jesmonite-19sept': {
-    name: 'Jesmonite декор',
-    date: '19 септември | 11:00',
-    badge: 'РАБОТИЛНИЦА 01',
-    badgeColor: '#3A5068',
-    payLink: 'https://mypos.com/vmp/btn/BUICP7YINEW68'
-  },
-  'jesmonite-27sept': {
-    name: 'Jesmonite декор',
-    date: '27 септември | 11:00',
-    badge: 'РАБОТИЛНИЦА 01',
-    badgeColor: '#3A5068',
-    payLink: 'https://mypos.com/vmp/btn/BAJ7WDYF5VG02'
-  },
-  'svesht-25juli': {
+  'svesht-15nov': {
     name: 'Соева свещ',
-    date: '25 юли | 17:00',
+    date: '15 ноември | 11:00',
     badge: 'РАБОТИЛНИЦА 02',
     badgeColor: '#9a543d',
-    payLink: 'https://mypos.com/vmp/btn/BJI424NSAXM21'
+    payLink: 'https://mypos.com/vmp/btn/BJ2JK2W47HO38'
   },
-  'svesht-01avgust': {
+  'svesht-21nov': {
     name: 'Соева свещ',
-    date: '01 август | 17:00',
+    date: '21 ноември | 15:00',
     badge: 'РАБОТИЛНИЦА 02',
     badgeColor: '#9a543d',
-    payLink: 'https://mypos.com/vmp/btn/BMQ8BM727TW18'
+    payLink: 'https://mypos.com/vmp/btn/B9PKYIVB1O704'
   },
-  'svesht-09avgust': {
+  'svesht-28nov': {
     name: 'Соева свещ',
-    date: '09 август | 17:00',
+    date: '28 ноември | 11:00',
     badge: 'РАБОТИЛНИЦА 02',
     badgeColor: '#9a543d',
-    payLink: 'https://mypos.com/vmp/btn/B87QSK7RMVO81'
+    payLink: 'https://mypos.com/vmp/btn/B8T2WFPGKQR81'
   },
-  'svesht-15avgust': {
-    name: 'Соева свещ',
-    date: '15 август | 11:00',
-    badge: 'РАБОТИЛНИЦА 02',
-    badgeColor: '#9a543d',
-    payLink: 'https://mypos.com/vmp/btn/BYK5QD2MPW302'
-  },
-  'svesht-23avgust': {
-    name: 'Соева свещ',
-    date: '23 август | 17:00',
-    badge: 'РАБОТИЛНИЦА 02',
-    badgeColor: '#9a543d',
-    payLink: 'https://mypos.com/vmp/btn/B3ZE6BRHID634'
-  },
-  'svesht-29avgust': {
-    name: 'Соева свещ',
-    date: '29 август | 17:00',
-    badge: 'РАБОТИЛНИЦА 02',
-    badgeColor: '#9a543d',
-    payLink: 'https://mypos.com/vmp/btn/B6FOD3GG3JF54'
-  },
-  'svesht-05sept': {
-    name: 'Соева свещ',
-    date: '05 септември | 15:00',
-    badge: 'РАБОТИЛНИЦА 02',
-    badgeColor: '#9a543d',
-    payLink: 'https://mypos.com/vmp/btn/BWNP6ATB28632'
-  },
-  'svesht-12sept': {
-    name: 'Соева свещ',
-    date: '12 септември | 11:00',
-    badge: 'РАБОТИЛНИЦА 02',
-    badgeColor: '#9a543d',
-    payLink: 'https://mypos.com/vmp/btn/BU53A4K6UV540'
-  },
-  'svesht-19sept': {
-    name: 'Соева свещ',
-    date: '19 септември | 15:00',
-    badge: 'РАБОТИЛНИЦА 02',
-    badgeColor: '#9a543d',
-    payLink: 'https://mypos.com/vmp/btn/B3JR8FH5RRL15'
-  },
-  'svesht-26sept': {
-    name: 'Соева свещ',
-    date: '26 септември | 11:00',
-    badge: 'РАБОТИЛНИЦА 02',
-    badgeColor: '#9a543d',
-    payLink: 'https://mypos.com/vmp/btn/BIW9HDMQT1710'
-  },
-  'albums-10avgust': {
+  'albums-12nov': {
     name: 'Какво казват ръцете ти?',
-    date: '10 август | 18:00',
+    date: '12 ноември | 18:30',
     badge: 'РАБОТИЛНИЦА 03',
     badgeColor: '#3d4a34',
-    payLink: 'https://mypos.com/vmp/btn/BK2T6VVDLXB84'
+    payLink: 'https://mypos.com/vmp/btn/BHPRNW6HB8O91'
   },
-  'albums-03sept': {
+  'albums-18nov': {
     name: 'Какво казват ръцете ти?',
-    date: '03 септември | 18:00',
+    date: '18 ноември | 18:30',
     badge: 'РАБОТИЛНИЦА 03',
     badgeColor: '#3d4a34',
-    payLink: 'https://mypos.com/vmp/btn/BLMC3BB73KV43'
-  },
-  'albums-10sept': {
-    name: 'Какво казват ръцете ти?',
-    date: '10 септември | 18:00',
-    badge: 'РАБОТИЛНИЦА 03',
-    badgeColor: '#3d4a34',
-    payLink: 'https://mypos.com/vmp/btn/BREVZKR837K89'
-  },
-  'albums-17sept': {
-    name: 'Какво казват ръцете ти?',
-    date: '17 септември | 18:00',
-    badge: 'РАБОТИЛНИЦА 03',
-    badgeColor: '#3d4a34',
-    payLink: 'https://mypos.com/vmp/btn/BW49AE9RKTD17'
-  },
-  'albums-20sept': {
-    name: 'Какво казват ръцете ти?',
-    date: '20 септември | 11:00',
-    badge: 'РАБОТИЛНИЦА 03',
-    badgeColor: '#3d4a34',
-    payLink: 'https://mypos.com/vmp/btn/B4KHVOSMN5998'
+    payLink: 'https://mypos.com/vmp/btn/BQJWEMD52S122'
   }
 };
-
-// ── Проверка дали дадена дата вече е отминала ──
-// Разчита текстовото поле "date" (напр. "27 септември | 11:00") и го
-// сравнява с текущия момент. Работи автоматично — не се налага
-// ръчно да се редактира нищо, за разлика от soldOut.
-var BG_MONTHS = {
-  'януари':0,'февруари':1,'март':2,'април':3,'май':4,'юни':5,
-  'юли':6,'август':7,'септември':8,'октомври':9,'ноември':10,'декември':11
-};
-function parseWorkshopDateTime(dateStr){
-  var m = dateStr.match(/(\d{1,2})\s+([а-яА-Я]+)\s*\|\s*(\d{1,2}):(\d{2})/);
-  if (!m) return null;
-  var month = BG_MONTHS[m[2].toLowerCase()];
-  if (month === undefined) return null;
-  return new Date(2026, month, parseInt(m[1], 10), parseInt(m[3], 10), parseInt(m[4], 10));
-}
-function isWorkshopPast(ws){
-  var dt = parseWorkshopDateTime(ws.date);
-  if (!dt) return false; // ако форматът не се разпознае, не блокираме по грешка
-  return new Date() > dt;
-}
 
 // ── Прочети параметъра от URL ──
 var params = new URLSearchParams(window.location.search);
@@ -494,42 +331,15 @@ if (ws) {
   document.getElementById('payBtn').href = ws.payLink;
   document.title = 'Запазване: ' + ws.name + ' ' + ws.date + ' | Eleganssa Studio';
 
-  if (ws.soldOut) {
-    // Работилницата е маркирана като запълнена — скриваме формата и
-    // плащането, показваме съобщение вместо тях.
-    document.getElementById('step1Card').style.display = 'none';
-    document.getElementById('step2Card').style.display = 'none';
-    document.getElementById('wsBadge').textContent = 'ЗАПЪЛНЕНО';
-    document.getElementById('wsBadge').style.background = '#8a8a8a';
-    document.getElementById('soldOutTitle').textContent = 'Тази дата е запълнена 😔';
-    document.getElementById('soldOutText').innerHTML = 'Съжаляваме, всички места за <b>' + ws.name + '</b> — <b>' + ws.date + '</b> вече са заети. Виж другите свободни дати на страницата с работилници.';
-    document.getElementById('soldOutCard').style.display = 'block';
-  } else if (isWorkshopPast(ws)) {
-    // Датата вече е отминала — блокираме автоматично, без ръчна намеса.
-    document.getElementById('step1Card').style.display = 'none';
-    document.getElementById('step2Card').style.display = 'none';
-    document.getElementById('wsBadge').textContent = 'ОТМИНАЛА ДАТА';
-    document.getElementById('wsBadge').style.background = '#8a8a8a';
-    document.getElementById('soldOutTitle').textContent = 'Тази дата вече отмина 🕒';
-    document.getElementById('soldOutText').innerHTML = '<b>' + ws.name + '</b> — <b>' + ws.date + '</b> вече се е провела. Виж предстоящите свободни дати на страницата с работилници.';
-    document.getElementById('soldOutCard').style.display = 'block';
-  } else {
-    // ViewContent event
-    fbq('track', 'ViewContent', {
-      content_name: ws.name + ' — ' + ws.date,
-      content_category: 'Workshop',
-      content_type: 'product',
-      value: 20.00,
-      currency: 'EUR'
-    });
-  }
+  // ViewContent event
+  fbq('track', 'ViewContent', {
+    content_name: ws.name + ' — ' + ws.date,
+    content_category: 'Workshop',
+    content_type: 'product',
+    value: 20.00,
+    currency: 'EUR'
+  });
 } else {
-  // Няма валиден ?workshop= параметър в линка — крием формата и
-  // плащането, за да не се подават заявки без информация коя
-  // работилница/дата е избрана.
-  document.getElementById('step1Card').style.display = 'none';
-  document.getElementById('step2Card').style.display = 'none';
-  document.getElementById('wsBadge').textContent = 'НЕ Е ИЗБРАНА';
   document.getElementById('wsBadge').style.background = '#2c3e50';
   document.getElementById('wsName').textContent = 'Работилница не е избрана';
   document.getElementById('wsDate').innerHTML = '<a href="index.html#schedule-jes" style="color:#3A5068;">← Избери работилница от сайта</a>';
