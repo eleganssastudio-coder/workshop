@@ -21,7 +21,7 @@ src="https://www.facebook.com/tr?id=1925358761457707&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Заяви мини сесия | Eleganssa Studio</title>
+<title>Мини сесия | Eleganssa Studio</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:ital@1&family=Lato:wght@400;700&display=swap');
 :root{
@@ -168,7 +168,7 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
   <div class="hero-header">
     <span class="hero-badge">МИНИ СЕСИЯ</span>
     <h1>Направи си нещо малко</h1>
-    <p>Без предварително записване и капаро — само заявка за час, ние потвърждаваме, ти плащаш на място.</p>
+    <p>Без записване и без капаро — просто влез. Плащаш на място.</p>
   </div>
 
   <div class="info-card">
@@ -177,76 +177,28 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
       Сам избираш какво искаш да направиш на място — свещ, ароматен спрей или малък декор — а ние ти помагаме с материалите и техниката. Цената варира от <b>18 до 25 €</b>, според избора, който направиш в момента.
     </p>
     <div class="schedule-info">
-      <b>Кога:</b> вторник – петък, 11:00 – 18:00 (на всеки кръгъл час) — свободни дати през септември 2026<br>
+      <b>Кога:</b> понеделник – петък, 11:00 – 18:00<br>
+      <b>Къде:</b> Ботаника бар, ул. „Никола Вапцаров“ 9, Варна<br>
       <b>Продължителност:</b> около 55–60 минути<br>
-      <b>Участници:</b> максимум 4 човека на слот<br>
+      <b>Участници:</b> до 4 души едновременно<br>
       <b>Плащане:</b> на място, в брой или с карта, според избрания продукт
     </div>
   </div>
 
-  <!-- ФОРМА ЗА ЗАЯВКА -->
-  <div class="step-card">
-    <h2>Заяви своя час</h2>
-    <form id="miniForm" action="https://formspree.io/f/mpqgnbbd" method="POST">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Име и Фамилия *</label>
-          <input type="text" name="name" required placeholder="Иван Иванов">
-        </div>
-        <div class="form-group">
-          <label>Телефон *</label>
-          <input type="tel" name="phone" required placeholder="088...">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Имейл *</label>
-        <input type="email" name="email" required placeholder="ivan@example.com">
-      </div>
-      <div class="form-group">
-        <label>Предпочитана дата *</label>
-        <div class="calendar-widget" id="dayCalendar">
-          <div class="calendar-header">Септември 2026</div>
-          <div class="calendar-weekdays">
-            <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span>
-          </div>
-          <div class="calendar-grid" id="calendarGrid"></div>
-          <div class="calendar-selected-info" id="calendarSelectedInfo">Избери дата от календара по-горе</div>
-          <div class="calendar-error" id="calendarError">Моля, избери дата, преди да изпратиш заявката.</div>
-        </div>
-        <input type="hidden" name="preferred_day" id="preferredDayInput">
-      </div>
-      <div class="form-group">
-        <label>Предпочитан час *</label>
-        <select name="preferred_hour" id="preferredHourSelect" required disabled>
-          <option value="">Първо избери дата</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Имаш ли предпочитание какво да направиш? <span style="color:var(--muted);font-weight:400;">(по избор)</span></label>
-        <input type="text" name="product_choice" placeholder="напр. свещ, спрей, декор — или ще решиш на място">
-      </div>
-      <div class="form-group">
-        <label>Имаш ли подаръчен ваучер? <span style="color:var(--muted);font-weight:400;">(по избор)</span></label>
-        <input type="text" name="voucher_code" placeholder="напр. ELEG-7F3K9">
-        <p style="font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5;">Ако имаш код от подаръчен ваучер за мини сесия, въведи го тук — тогава не плащаш на място.</p>
-      </div>
-      <div class="form-group">
-        <label>Съобщение <span style="color:var(--muted);font-weight:400;">(по избор)</span></label>
-        <textarea name="message" placeholder="Алтернативен час, брой хора, друго..."></textarea>
-      </div>
-      <input type="hidden" name="request_type" value="Мини работилница">
-      <div class="consent-row">
-        <input type="checkbox" required id="gdprCheck">
-        <span>Съгласен/на съм личните ми данни да бъдат обработени, съгласно <a href="privacy.html" target="_blank">Политиката за поверителност</a>.</span>
-      </div>
-      <button type="submit" class="submit-btn">Изпрати заявка</button>
-      <div class="form-success" id="formSuccess">✓ Заявката е изпратена! Ще ти потвърдим часа възможно най-скоро на посочения телефон или имейл.</div>
-    </form>
+  <!-- Засега без записване: вместо форма за заявка — къде да ни намериш -->
+  <div class="info-card">
+    <h2>Просто ела</h2>
+    <p style="font-size:15px;color:var(--dark);line-height:1.8;">
+      Няма нужда да заявяваш час. Влез в работното време и започваме, щом има свободно място (до 4 души едновременно). Ако идвате повече хора, звъннете ни преди това.
+    </p>
+    <div class="schedule-info">
+      <a href="https://www.google.com/maps/search/?api=1&query=%D1%83%D0%BB.+%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0+%D0%92%D0%B0%D0%BF%D1%86%D0%B0%D1%80%D0%BE%D0%B2+9+%D0%92%D0%B0%D1%80%D0%BD%D0%B0" target="_blank" style="color:var(--accent);font-weight:700;">Виж на картата →</a>
+    </div>
   </div>
 
   <div class="help-box">
     При въпроси или съдействие:<br>
-    <a href="tel:+359885442821">📞 0885 442 821</a>
+    <a href="tel:+359885442821">0885 442 821</a>
   </div>
 
 </div>
@@ -257,184 +209,6 @@ footer a{ color:rgba(253,246,238,.6); text-decoration:none; margin:0 8px; }
   <a href="terms.html">Общи условия</a>
 </footer>
 
-<script>
-// --- Календар: септември 2026, само работните дни от списъка са активни ---
-var dayLabels = {
-  1: "Вторник, 1 септември 2026",
-  2: "Сряда, 2 септември 2026",
-  3: "Четвъртък, 3 септември 2026",
-  4: "Петък, 4 септември 2026",
-  8: "Вторник, 8 септември 2026",
-  9: "Сряда, 9 септември 2026",
-  10: "Четвъртък, 10 септември 2026",
-  11: "Петък, 11 септември 2026",
-  15: "Вторник, 15 септември 2026",
-  16: "Сряда, 16 септември 2026",
-  17: "Четвъртък, 17 септември 2026",
-  22: "Вторник, 22 септември 2026",
-  23: "Сряда, 23 септември 2026",
-  24: "Четвъртък, 24 септември 2026",
-  25: "Петък, 25 септември 2026",
-  29: "Вторник, 29 септември 2026",
-  30: "Сряда, 30 септември 2026"
-};
-
-// ── РЪЧНА КОНФИГУРАЦИЯ НА НАЛИЧНОСТТА ──────────────────────────────
-// Редактирай тези два обекта, за да управляваш наличността на часовете.
-// Ключът е денят от месеца (число), стойността е списък от часове ("HH:MM").
-//
-// 1) RESTRICTED_HOURS_BY_DATE — часове, които изобщо НЕ се предлагат
-//    за дадена дата (напр. работилницата почива по-рано онзи ден).
-//    Тези часове напълно изчезват от менюто.
-//
-//    Пример: на 3 септември няма 17:00 и 18:00 слот:
-//    3: ["17:00", "18:00"]
-//
-// 2) BOOKED_SLOTS_BY_DATE — часове, които вече са напълно запълнени
-//    (4-те места за слота са заети). Тези часове остават видими в
-//    менюто, но са disabled и маркирани "Запълнено", за да е ясно
-//    на клиента, че е било налично, но вече не е.
-//
-//    Пример: на 3 септември 14:00 вече е запълнен:
-//    3: ["14:00"]
-//
-// Ако дадена дата няма запис тук, приема се, че всичките 8 часа
-// (11:00–18:00) са напълно свободни.
-var RESTRICTED_HOURS_BY_DATE = {
-  // 1: ["17:00", "18:00"],
-};
-var BOOKED_SLOTS_BY_DATE = {
-  // 1: ["14:00"],
-};
-var ALL_HOURS = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];
-
-// Ако за дадена дата всичките 8 часа са в RESTRICTED_HOURS_BY_DATE,
-// датата се показва като напълно затворена в самия календар.
-function isDateFullyRestricted(day){
-  var restricted = RESTRICTED_HOURS_BY_DATE[day] || [];
-  return ALL_HOURS.every(function(h){ return restricted.indexOf(h) !== -1; });
-}
-
-// Работилницата приключва в 18:00 — след този час датата вече е
-// "отминала" и се заключва автоматично, без да се редактира нищо ръчно.
-function isPastCutoff(day){
-  var cutoff = new Date(2026, 8, day, 18, 0, 0); // месец 8 = септември (0-индексирано)
-  return new Date() > cutoff;
-}
-
-function isDaySelectable(day){
-  return !!dayLabels[day] && !isPastCutoff(day) && !isDateFullyRestricted(day);
-}
-
-// Построява менюто за час спрямо избрания ден: маха напълно
-// ограничените часове и деактивира вече запълнените.
-function updateHourOptions(day){
-  var hourSelect = document.getElementById('preferredHourSelect');
-  var restricted = RESTRICTED_HOURS_BY_DATE[day] || [];
-  var booked = BOOKED_SLOTS_BY_DATE[day] || [];
-  var html = '<option value="">Избери час</option>';
-  var anyAvailable = false;
-
-  ALL_HOURS.forEach(function(h){
-    if (restricted.indexOf(h) !== -1) return;
-    if (booked.indexOf(h) !== -1) {
-      html += '<option value="' + h + '" disabled>' + h + ' — Запълнено</option>';
-    } else {
-      html += '<option value="' + h + '">' + h + '</option>';
-      anyAvailable = true;
-    }
-  });
-
-  hourSelect.innerHTML = html;
-  hourSelect.disabled = !anyAvailable;
-  if (!anyAvailable) {
-    hourSelect.innerHTML = '<option value="">Няма свободни часове тази дата</option>';
-  }
-}
-
-(function renderCalendar(){
-  var year = 2026, month = 8; // септември (0-indexed)
-  var firstWeekday = new Date(year, month, 1).getDay(); // 0=Нд,1=Пн,...6=Сб
-  var mondayFirstIndex = (firstWeekday + 6) % 7; // 0=Пн ... 6=Нд
-  var daysInMonth = new Date(year, month + 1, 0).getDate();
-
-  var grid = document.getElementById('calendarGrid');
-  var hiddenInput = document.getElementById('preferredDayInput');
-  var infoBox = document.getElementById('calendarSelectedInfo');
-  var errorBox = document.getElementById('calendarError');
-
-  var cellsHtml = '';
-  for (var i = 0; i < mondayFirstIndex; i++) {
-    cellsHtml += '<div class="cal-day empty"></div>';
-  }
-  for (var d = 1; d <= daysInMonth; d++) {
-    if (isDaySelectable(d)) {
-      cellsHtml += '<div class="cal-day" data-day="' + d + '">' + d + '</div>';
-    } else if (dayLabels[d] && isPastCutoff(d)) {
-      cellsHtml += '<div class="cal-day disabled" title="Датата е отминала">' + d + '</div>';
-    } else if (dayLabels[d] && isDateFullyRestricted(d)) {
-      cellsHtml += '<div class="cal-day disabled" title="Няма свободни часове">' + d + '</div>';
-    } else {
-      cellsHtml += '<div class="cal-day disabled">' + d + '</div>';
-    }
-  }
-  var totalCells = mondayFirstIndex + daysInMonth;
-  var trailing = (7 - (totalCells % 7)) % 7;
-  for (var t = 0; t < trailing; t++) {
-    cellsHtml += '<div class="cal-day empty"></div>';
-  }
-  grid.innerHTML = cellsHtml;
-
-  grid.querySelectorAll('.cal-day[data-day]').forEach(function(cell){
-    cell.addEventListener('click', function(){
-      grid.querySelectorAll('.cal-day.selected').forEach(function(c){ c.classList.remove('selected'); });
-      cell.classList.add('selected');
-      var day = cell.getAttribute('data-day');
-      hiddenInput.value = dayLabels[day];
-      infoBox.textContent = 'Избрана дата: ' + dayLabels[day];
-      errorBox.style.display = 'none';
-      updateHourOptions(day);
-    });
-  });
-})();
-
-document.getElementById('miniForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  var form = e.target;
-
-  // Валидация на избора от календара (hidden input не се проверява от браузъра)
-  var preferredDay = document.getElementById('preferredDayInput');
-  if (!preferredDay.value) {
-    document.getElementById('calendarError').style.display = 'block';
-    document.getElementById('dayCalendar').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
-  }
-
-  var btn = form.querySelector('.submit-btn');
-  btn.disabled = true;
-  btn.textContent = 'Изпращане...';
-
-  fetch(form.action, {
-    method: 'POST',
-    body: new FormData(form),
-    headers: { 'Accept': 'application/json' }
-  }).then(function(response){
-    if (response.ok) {
-      document.getElementById('formSuccess').style.display = 'block';
-      btn.textContent = '✓ Изпратено';
-      fbq('track', 'Lead', { content_name: 'Мини работилница', content_category: 'MiniWorkshop' });
-    } else {
-      btn.disabled = false;
-      btn.textContent = 'Изпрати заявка';
-      alert('Възникна грешка. Опитай отново или ни се обади на 0885 442 821.');
-    }
-  }).catch(function(){
-    btn.disabled = false;
-    btn.textContent = 'Изпрати заявка';
-    alert('Възникна грешка. Опитай отново или ни се обади на 0885 442 821.');
-  });
-});
-</script>
 
 </body>
 </html>
